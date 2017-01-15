@@ -21,7 +21,12 @@ namespace NgramTest
 
             while (true)
             {
-                Console.WriteLine(naiveBayesLanguageIdentifier.Identify(Console.ReadLine()).First().Item1.Iso639_2T);
+                var rates = naiveBayesLanguageIdentifier.Identify(Console.ReadLine());
+                foreach (var rate in rates)
+                {
+                    Display(rate);
+                }
+                Console.WriteLine();
             }
             
             /*
@@ -31,6 +36,11 @@ namespace NgramTest
             {
                 return $"text=\"{string.Join("", match.Groups[1].ToString().Select(ch => Escape(SwitchLayout[ch].ToString())).ToArray())}\"";
             }));*/
+        }
+
+        private static void Display(Tuple<LanguageInfo, double> dd)
+        {
+            Console.WriteLine($"{dd.Item1.Iso639_2T} {dd.Item2}");
         }
 
         private static string Escape(string str)

@@ -5598,6 +5598,7 @@
         <ngram text="общ" count="10219" />
         <ngram text="ообщ" count="7246" />
         <ngram text="ще" count="31927" />
+        <ngram text="щё" count="31927" />
         <ngram text="бще" count="3906" />
         <ngram text="обще" count="3781" />
         <ngram text="оход" count="8891" />
@@ -5882,6 +5883,7 @@
         <ngram text="апр" count="5670" />
         <ngram text="апре" count="3393" />
         <ngram text="еще" count="9240" />
+        <ngram text="ещё" count="9240" />
         <ngram text="щен" count="15647" />
         <ngram text="ещен" count="7610" />
         <ngram text="ена" count="9697" />
@@ -8178,8 +8180,6 @@
         <ngram text="ршы_" count="30182" />
         <ngram text="ершы_" count="14645" />
         <ngram text="_н" count="43904" />
-        <ngram text="ну" count="44536" />
-        <ngram text="_ну" count="34963" />
         <ngram text="уф" count="179727" />
         <ngram text="нуф" count="29661" />
         <ngram text="_нуф" count="29573" />
