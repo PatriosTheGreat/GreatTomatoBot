@@ -16,7 +16,7 @@ namespace TomatoBot.BotCommands
             return base.CanExecute(activity) && CommandUserRegex.IsMatch(activity.Text);
         }
 
-        public override string ExecuteAndGetResponce(Activity activity)
+        public override string ExecuteAndGetResponse(Activity activity)
         {
             var scores = ScoreRepository.GetScoresInConversation(activity.Conversation.Id);
             var userScopes = string.Join(", ", scores.Select(score => score.PersonalScore()));

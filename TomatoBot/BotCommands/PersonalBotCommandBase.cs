@@ -12,9 +12,9 @@ namespace TomatoBot.BotCommands
             ScoreRepository = scoreRepository;
         }
 
-        public virtual bool CanExecute(Activity activity) => activity.IsAdressToBot();
+        public virtual bool CanExecute(Activity activity) => activity.IsMessageForBot();
 
-        public abstract string ExecuteAndGetResponce(Activity activity);
+        public abstract string ExecuteAndGetResponse(Activity activity);
 
         protected ScoreRepository ScoreRepository { get; }
 

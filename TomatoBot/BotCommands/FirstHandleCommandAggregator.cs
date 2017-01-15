@@ -14,8 +14,8 @@ namespace TomatoBot.BotCommands
         public bool CanExecute(Activity activity) =>
             _botCommands.Any(bot => bot.CanExecute(activity));
 
-        public string ExecuteAndGetResponce(Activity activity) =>
-            _botCommands.FirstOrDefault(bot => bot.CanExecute(activity))?.ExecuteAndGetResponce(activity) ??
+        public string ExecuteAndGetResponse(Activity activity) =>
+            _botCommands.FirstOrDefault(bot => bot.CanExecute(activity))?.ExecuteAndGetResponse(activity) ??
             string.Empty;
 
         private readonly IEnumerable<IBotCommand> _botCommands;

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using Microsoft.Bot.Connector;
 using TomatoBot.Model;
 using TomatoBot.Reository;
@@ -19,10 +16,10 @@ namespace TomatoBot.BotCommands
 
         public bool CanExecute(Activity activity) => true;
 
-        public string ExecuteAndGetResponce(Activity activity)
+        public string ExecuteAndGetResponse(Activity activity)
         {
             var responce = string.Empty;
-            foreach (var url in GetUrlsInMessage(activity.Text))
+            foreach (var url in ActivityExtension.GetUrlsInMessage(activity.Text))
             {
                 var urlId = GetSha256(new Uri(url).ToString());
                 var boyan = _repository.GetMemesOrDefault(activity.Conversation.Id, urlId);
@@ -51,12 +48,6 @@ namespace TomatoBot.BotCommands
             return responce;
         }
 
-        private static IEnumerable<string> GetUrlsInMessage(string messages)
-        {
-            var matches = UrlRegex.Matches(messages);
-            return from object match in matches select match.ToString();
-        }
-
         private static string GetSha256(string value)
         {
             var stringBuilder = new StringBuilder();
@@ -74,10 +65,6 @@ namespace TomatoBot.BotCommands
             return stringBuilder.ToString();
         }
         
-        private static Regex UrlRegex = new Regex(
-            @"(http|ftp|https)://([\w+?\.\w+])+([a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;\'\,]*)?",
-            RegexOptions.Compiled);
-
         private readonly MemesRepository _repository;
     }
 }

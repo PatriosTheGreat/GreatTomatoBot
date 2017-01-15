@@ -14,11 +14,11 @@ namespace TomatoBot.BotCommands
         public bool CanExecute(Activity activity) =>
             _botCommands.Any(command => command.CanExecute(activity));
 
-        public string ExecuteAndGetResponce(Activity activity)
+        public string ExecuteAndGetResponse(Activity activity)
         {
             return string.Join(". ",
                 _botCommands.Where(command => command.CanExecute(activity))
-                    .Select(command => command.ExecuteAndGetResponce(activity))
+                    .Select(command => command.ExecuteAndGetResponse(activity))
                     .Where(result => !string.IsNullOrEmpty(result)));
         }
 

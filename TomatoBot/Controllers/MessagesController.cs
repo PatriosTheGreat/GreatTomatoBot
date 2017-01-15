@@ -31,7 +31,7 @@ namespace TomatoBot
         {
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
-                var responce = _botCommands.ExecuteAndGetResponce(activity);
+                var responce = _botCommands.ExecuteAndGetResponse(activity);
 
                 if (!string.IsNullOrEmpty(responce))
                 {

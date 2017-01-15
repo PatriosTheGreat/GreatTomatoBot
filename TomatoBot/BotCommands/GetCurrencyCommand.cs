@@ -10,10 +10,10 @@ namespace TomatoBot.BotCommands
     {
         public bool CanExecute(Activity activity)
         {
-            return activity.IsAdressToBot() && GetOperationType(activity.Text) != CurrencyOperationType.None;
+            return activity.IsMessageForBot() && GetOperationType(activity.Text) != CurrencyOperationType.None;
         }
 
-        public string ExecuteAndGetResponce(Activity activity)
+        public string ExecuteAndGetResponse(Activity activity)
         {
             var response = string.Empty;
             string urlToCurrency;

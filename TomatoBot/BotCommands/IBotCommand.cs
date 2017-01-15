@@ -6,6 +6,6 @@ namespace TomatoBot.BotCommands
     {
         bool CanExecute(Activity activity);
 
-        string ExecuteAndGetResponce(Activity activity);
+        string ExecuteAndGetResponse(Activity activity);
     }
 }

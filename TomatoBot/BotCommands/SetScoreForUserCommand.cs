@@ -17,7 +17,7 @@ namespace TomatoBot.BotCommands
             return base.CanExecute(activity) && SetScoreUserRegex.IsMatch(activity.Text) && int.TryParse(activity.Text.Split(' ').Last(), out score);
         }
 
-        public override string ExecuteAndGetResponce(Activity activity)
+        public override string ExecuteAndGetResponse(Activity activity)
         {
             var userScore = GetScoreForUserOrNull(activity);
 

@@ -12,7 +12,7 @@ namespace TomatoBot.BotCommands
 
         public bool CanExecute(Activity activity) => true;
 
-        public string ExecuteAndGetResponce(Activity activity)
+        public string ExecuteAndGetResponse(Activity activity)
         {
             var userChannelData = new ChannelUserData(activity.ChannelData?.ToString());
             _scoreRepository.UpdateUserData(

@@ -12,17 +12,17 @@ namespace TomatoBot.BotCommands
         public DetermineWrongLayoutCommand(ScoreRepository repository)
         {
             _repository = repository;
-            _naiveBayesLanguageIdentifier = new NaiveBayesLanguageIdentifierFactory().Load(GetType().Assembly.GetManifestResourceStream("TomatoBot.Core14.profile.xml"));
+            _naiveBayesLanguageIdentifier = new NaiveBayesLanguageIdentifierFactory().Load(GetType().Assembly.GetManifestResourceStream(NgramsEmbeddedFileName));
         }
 
         public bool CanExecute(Activity activity)
         {
-            return GetWords(activity.Text).Any() && !activity.IsAdressToBot();
+            return GetWords(activity.Text).Any() && !activity.IsMessageForBot();
         }
 
-        public string ExecuteAndGetResponce(Activity activity)
+        public string ExecuteAndGetResponse(Activity activity)
         {
-            if (!IsAnyWordIncorrect(activity.Text))
+            if (!IsAnyWordIncorrect(FilterText(activity.Text)))
             {
                 return string.Empty;
             }
@@ -37,12 +37,22 @@ namespace TomatoBot.BotCommands
             return string.Empty;
         }
 
+        private static string FilterText(string activityText)
+        {
+            foreach (var url in ActivityExtension.GetUrlsInMessage(activityText))
+            {
+                activityText = activityText.Replace(url, string.Empty);
+            }
+
+            return activityText;
+        }
+
         private bool IsAnyWordIncorrect(string message)
         {
             return GetWords(message).Any(word =>
             {
                 var language = _naiveBayesLanguageIdentifier.Identify(word).First().Item1.Iso639_2T;
-                return language != "rus" && language != "eng";
+                return language == "rusWrong" || language == "engWrong";
             });
         }
 
@@ -54,5 +64,6 @@ namespace TomatoBot.BotCommands
         private readonly ScoreRepository _repository;
         private readonly NaiveBayesLanguageIdentifier _naiveBayesLanguageIdentifier;
         private static readonly Regex WordRegex = new Regex("[a-zA-Zа-яА-Я]+", RegexOptions.Compiled);
+        private const string NgramsEmbeddedFileName = "TomatoBot.Core14.profile.xml";
     }
 }
