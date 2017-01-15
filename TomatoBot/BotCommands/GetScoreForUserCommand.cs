@@ -7,9 +7,8 @@ namespace TomatoBot.BotCommands
 {
     public sealed class GetScoreForUserCommand : PersonalBotCommandBase
     {
-        public GetScoreForUserCommand(ScoreRepository scoreRepository)
+        public GetScoreForUserCommand(ScoreRepository scoreRepository) : base(scoreRepository)
         {
-            _scoreRepository = scoreRepository;
         }
         
         public override bool CanExecute(Activity activity)
@@ -19,14 +18,11 @@ namespace TomatoBot.BotCommands
 
         public override string ExecuteAndGetResponce(Activity activity)
         {
-            var matchingGroupds = CommandUserRegex.Match(activity.Text);
-            var userInfo = matchingGroupds.Groups[matchingGroupds.Groups.Count - 1].ToString();
-
-            var userScore = _scoreRepository.GetScoreForUser(activity.Conversation.Id, userInfo);
+            var userScore = GetScoreForUserOrNull(activity);
 
             if (userScore != null)
             {
-                var totalScore = _scoreRepository.GetScoresInConversation(activity.Conversation.Id)
+                var totalScore = ScoreRepository.GetScoresInConversation(activity.Conversation.Id)
                     .Sum(score => score.Score);
 
                 return $"{userScore.PersonalScore()}, У всех остальных {totalScore - userScore.Score}";
@@ -34,8 +30,7 @@ namespace TomatoBot.BotCommands
 
             return string.Empty;
         }
-
-        private readonly ScoreRepository _scoreRepository;
+        
         private static readonly Regex CommandUserRegex =
             new Regex("(/|(@GreatTomatoBot ))((счет)|(score)) @?([a-zA-Z0-9]+)");
     }

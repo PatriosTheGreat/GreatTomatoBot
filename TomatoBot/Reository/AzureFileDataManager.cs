@@ -37,6 +37,11 @@ namespace TomatoBot.Reository
                 using (var memoryStream = new MemoryStream())
                 {
                     GetBotDataBlock().DownloadToStream(memoryStream);
+                    if (memoryStream.Length == 0)
+                    {
+                        return new TData[0];
+                    }
+
                     memoryStream.Position = 0;
                     return (TData[])Serializer.ReadObject(memoryStream);
                 }

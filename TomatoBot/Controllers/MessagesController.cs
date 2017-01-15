@@ -23,6 +23,7 @@ namespace TomatoBot
                     new IncrementScoreForUserCommand(ScoreRepository),
                     new GetScoreForUserCommand(ScoreRepository),
                     new SetScoreForUserCommand(ScoreRepository),
+                    new DetermineWrongLayoutCommand(ScoreRepository),
                     new RudeAnswerCommand()));
         }
 

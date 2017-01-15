@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.Bot.Connector;
 using TomatoBot.Reository;
 
@@ -6,36 +7,34 @@ namespace TomatoBot.BotCommands
 {
     public sealed class SetScoreForUserCommand : PersonalBotCommandBase
     {
-        public SetScoreForUserCommand(ScoreRepository scoreRepository)
+        public SetScoreForUserCommand(ScoreRepository scoreRepository) : base(scoreRepository)
         {
-            _scoreRepository = scoreRepository;
         }
 
         public override bool CanExecute(Activity activity)
         {
-            return base.CanExecute(activity) && SetScoreUserRegex.IsMatch(activity.Text);
+            int score;
+            return base.CanExecute(activity) && SetScoreUserRegex.IsMatch(activity.Text) && int.TryParse(activity.Text.Split(' ').Last(), out score);
         }
 
         public override string ExecuteAndGetResponce(Activity activity)
         {
-            var matchingGroupds = SetScoreUserRegex.Match(activity.Text);
-            var userInfo = matchingGroupds.Groups[matchingGroupds.Groups.Count - 2].ToString();
-            var userScore = _scoreRepository.GetScoreForUser(activity.Conversation.Id, userInfo);
+            var userScore = GetScoreForUserOrNull(activity);
 
             if (userScore != null)
             {
-                int newScore;
-                if (int.TryParse(matchingGroupds.Groups[matchingGroupds.Groups.Count - 1].ToString(), out newScore))
+                int score;
+
+                if(int.TryParse(activity.Text.Split(' ').Last(), out score))
                 {
-                    _scoreRepository.SetScoreForUser(activity.Conversation.Id, userScore.UserId, newScore);
+                    ScoreRepository.SetScoreForUser(activity.Conversation.Id, userScore.UserId, score);
                     return userScore.PersonalScore();
                 }
             }
 
             return string.Empty;
         }
-
-        private readonly ScoreRepository _scoreRepository;
+        
         private static readonly Regex SetScoreUserRegex =
             new Regex("(/|(@GreatTomatoBot ))((выставить счет)|(set score)) @?([a-zA-Z0-9]+) ([0-9]+)");
     }

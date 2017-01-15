@@ -6,14 +6,14 @@ using Microsoft.Bot.Connector;
 
 namespace TomatoBot.BotCommands
 {
-    public sealed class GetCurrencyCommand : PersonalBotCommandBase
+    public sealed class GetCurrencyCommand : IBotCommand
     {
-        public override bool CanExecute(Activity activity)
+        public bool CanExecute(Activity activity)
         {
-            return base.CanExecute(activity) && GetOperationType(activity.Text) != CurrencyOperationType.None;
+            return activity.IsAdressToBot() && GetOperationType(activity.Text) != CurrencyOperationType.None;
         }
 
-        public override string ExecuteAndGetResponce(Activity activity)
+        public string ExecuteAndGetResponce(Activity activity)
         {
             var response = string.Empty;
             string urlToCurrency;

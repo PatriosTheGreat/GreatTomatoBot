@@ -57,6 +57,14 @@ namespace TomatoBot.Reository
             }
         }
 
+        public bool IsUserExists(string conversationId, string userNameOrNickname)
+        {
+            return _scores.FirstOrDefault(
+                score => 
+                    score.ConversationId == conversationId && 
+                    (score.UserFirstName == userNameOrNickname || score.UserNickname == userNameOrNickname)) != null;
+        }
+
         private MemberScore GetUserScore(string conversationId, string userId)
         {
             return _scores.FirstOrDefault(score => score.ConversationId == conversationId && score.UserId == userId);

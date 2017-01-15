@@ -1,14 +1,32 @@
-﻿using Microsoft.Bot.Connector;
+﻿using System.Linq;
+using Microsoft.Bot.Connector;
+using TomatoBot.Model;
+using TomatoBot.Reository;
 
 namespace TomatoBot.BotCommands
 {
     public abstract class PersonalBotCommandBase : IBotCommand
     {
-        public virtual bool CanExecute(Activity activity) =>
-            activity.Text.StartsWith("/") || activity.Text.Contains(BotName);
+        protected PersonalBotCommandBase(ScoreRepository scoreRepository)
+        {
+            ScoreRepository = scoreRepository;
+        }
+
+        public virtual bool CanExecute(Activity activity) => activity.IsAdressToBot();
 
         public abstract string ExecuteAndGetResponce(Activity activity);
 
-        public const string BotName = "GreatTomatoBot";
+        protected ScoreRepository ScoreRepository { get; }
+
+        protected MemberScore GetScoreForUserOrNull(IMessageActivity activity)
+        {
+            return ScoreRepository.GetScoreForUser(activity.Conversation.Id, GetUserNameFromMessageOrNull(activity));
+        }
+
+        private string GetUserNameFromMessageOrNull(IMessageActivity activity)
+        {
+            return activity.Text.Split(' ').Select(word => word.Trim().Trim('@')).FirstOrDefault(
+                word => ScoreRepository.IsUserExists(activity.Conversation.Id, word));
+        }
     }
 }
