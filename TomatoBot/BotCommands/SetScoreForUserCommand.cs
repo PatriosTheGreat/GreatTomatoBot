@@ -13,8 +13,7 @@ namespace TomatoBot.BotCommands
 
         public override bool CanExecute(Activity activity)
         {
-            int score;
-            return base.CanExecute(activity) && SetScoreUserRegex.IsMatch(activity.Text) && int.TryParse(activity.Text.Split(' ').Last(), out score);
+            return base.CanExecute(activity) && SetScoreUserRegex.IsMatch(activity.Text) && GetScoreToSet(activity.Text) != -1;
         }
 
         public override string ExecuteAndGetResponse(Activity activity)
@@ -23,16 +22,22 @@ namespace TomatoBot.BotCommands
 
             if (userScore != null)
             {
-                int score;
-
-                if(int.TryParse(activity.Text.Split(' ').Last(), out score))
-                {
-                    ScoreRepository.SetScoreForUser(activity.Conversation.Id, userScore.UserId, score);
-                    return userScore.PersonalScore();
-                }
+                ScoreRepository.SetScoreForUser(activity.Conversation.Id, userScore.UserId, GetScoreToSet(activity.Text));
+                return userScore.PersonalScore();
             }
 
             return string.Empty;
+        }
+
+        private static int GetScoreToSet(string text)
+        {
+            int score;
+            if (!int.TryParse(text.Split(' ').Last(), out score))
+            {
+                return -1;
+            }
+
+            return score;
         }
         
         private static readonly Regex SetScoreUserRegex =

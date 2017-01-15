@@ -7,7 +7,7 @@ namespace TomatoBot.BotCommands
     {
         public string ExecuteAndGetResponse(Activity activity)
         {
-            return Answers[_random.Next(0, 6)];
+            return Answers[_random.Next(0, Answers.Length)];
         }
 
         public bool CanExecute(Activity activity)
