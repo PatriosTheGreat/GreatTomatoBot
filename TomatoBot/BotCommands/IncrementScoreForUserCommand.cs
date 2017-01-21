@@ -29,6 +29,6 @@ namespace TomatoBot.BotCommands
         }
         
         private static readonly Regex ValidateIncrementUserCommandRegex = 
-            new Regex("(/|(@GreatTomatoBot)) (((увеличить счет)|(increment score)) @?([a-zA-Z0-9]+))|(@?([a-zA-Z0-9]+) [+])");
+            new Regex($"(/|(@GreatTomatoBot)) (((увеличить счет)|(increment score)) {ActivityExtension.UserNameRegex}|{ActivityExtension.UserNameRegex} [+])");
     }
 }

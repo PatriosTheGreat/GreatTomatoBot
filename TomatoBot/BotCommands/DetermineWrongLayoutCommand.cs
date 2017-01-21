@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Bot.Connector;
@@ -17,7 +18,8 @@ namespace TomatoBot.BotCommands
 
         public bool CanExecute(Activity activity)
         {
-            return IsIncorrect(FilterText(activity.Text)) && !activity.IsMessageForBot();
+            var filteredText = FilterText(activity.Text);
+            return !activity.IsMessageForBot() && IsEnglishIncorrect(filteredText);
         }
 
         public string ExecuteAndGetResponse(Activity activity)
@@ -34,30 +36,36 @@ namespace TomatoBot.BotCommands
 
         private static string FilterText(string activityText)
         {
-            foreach (var url in ActivityExtension.GetUrlsInMessage(activityText))
-            {
-                activityText = activityText.Replace(url, string.Empty);
-            }
-
-            return activityText;
+            var filteredWords =
+                activityText.Split().Select(word => word.Trim()).Where(word => !ActivityExtension.IsUrl(word) && !IsSmile(word));
+            return string.Join(" ", filteredWords);
         }
 
-        private bool IsIncorrect(string message)
+        private static bool IsSmile(string word) => word.Length == 2 && (word.First() == ':' || word.First() == ';');
+
+        // ToDo: Исправить определение неправильного английского слова
+        private bool IsRussianIncorrect(string message) => IsIncorrectLanguage(message, RussianWordRegex, RussianIsoCode, EnglishWrongIsoCode);
+
+        private bool IsEnglishIncorrect(string message) => IsIncorrectLanguage(message, EnglisgWordRegex, EnglishIsoCode, RussianWrongIsoCode);
+
+        private bool IsIncorrectLanguage(string message, Regex languageRegex, string languageIso, string wrongLanguageIso)
         {
-            var text = string.Join(" ", GetWords(message));
+            var text = string.Join(" ", GetWords(message, languageRegex));
 
-            var language = _naiveBayesLanguageIdentifier.Identify(text).First().Item1.Iso639_2T;
-            return language == "rusWrong" || language == "engWrong";
+            var lenguageRates = _naiveBayesLanguageIdentifier.Identify(text).Select(rate => rate.Item1.Iso639_2T).ToArray();
+            return Array.IndexOf(lenguageRates, languageIso) > Array.IndexOf(lenguageRates, wrongLanguageIso);
         }
 
-        private static IEnumerable<string> GetWords(string message)
-        {
-            return from object word in WordRegex.Matches(message) select word.ToString();
-        }
+        private static IEnumerable<string> GetWords(string message, Regex languageRegex) => from object word in languageRegex.Matches(message) select word.ToString();
 
         private readonly ScoreRepository _repository;
         private readonly NaiveBayesLanguageIdentifier _naiveBayesLanguageIdentifier;
-        private static readonly Regex WordRegex = new Regex("[a-zA-Zа-яА-Я]+", RegexOptions.Compiled);
+        private static readonly Regex EnglisgWordRegex = new Regex("[a-zA-Z\\]\\];',\\.\\{\\}\\:<>`~\"]+", RegexOptions.Compiled);
+        private static readonly Regex RussianWordRegex = new Regex("[а-яА-Я]+", RegexOptions.Compiled);
         private const string NgramsEmbeddedFileName = "TomatoBot.Core14.profile.xml";
+        private const string RussianIsoCode = "rus";
+        private const string EnglishIsoCode = "eng";
+        private const string RussianWrongIsoCode = "rusWrong";
+        private const string EnglishWrongIsoCode = "engWrong";
     }
 }

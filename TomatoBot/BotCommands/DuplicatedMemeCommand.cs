@@ -41,7 +41,7 @@ namespace TomatoBot.BotCommands
                 }
                 else
                 {
-                    responce += $"Боян этом мемес {url} уже был сканут {boyan.SendUser} примерно в {boyan.RecieveTimeUtc.ToString("dd.mm.hh HH:MM")} utc!!! ";
+                    responce += $"Боян этом мемес {url} уже был сканут {boyan.SendUser} примерно в {boyan.RecieveTimeUtc:o} utc!!! ";
                 }
             }
 

@@ -41,6 +41,6 @@ namespace TomatoBot.BotCommands
         }
         
         private static readonly Regex SetScoreUserRegex =
-            new Regex("(/|(@GreatTomatoBot ))((выставить счет)|(set score)) @?([a-zA-Z0-9]+) ([0-9]+)");
+            new Regex($"(/|(@GreatTomatoBot ))((выставить счет)|(set score)) {ActivityExtension.UserNameRegex} ([0-9]+)");
     }
 }

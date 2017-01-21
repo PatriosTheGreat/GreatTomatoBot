@@ -18,6 +18,13 @@ namespace TomatoBot.BotCommands
             return from object match in matches select match.ToString();
         }
 
+        public static bool IsUrl(string word)
+        {
+            return UrlRegex.IsMatch(word);
+        }
+
+        public static string UserNameRegex = "@?([_a-zA-Z0-9]+)";
+
         private static readonly Regex UrlRegex = new Regex(
             @"(http|ftp|https)://([\w+?\.\w+])+([a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;\'\,]*)?",
             RegexOptions.Compiled);
