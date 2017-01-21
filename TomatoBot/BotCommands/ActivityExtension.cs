@@ -25,6 +25,8 @@ namespace TomatoBot.BotCommands
 
         public static string UserNameRegex = "@?([_a-zA-Z0-9]+)";
 
+        public static string NewLine = "\n\n";
+
         private static readonly Regex UrlRegex = new Regex(
             @"(http|ftp|https)://([\w+?\.\w+])+([a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;\'\,]*)?",
             RegexOptions.Compiled);

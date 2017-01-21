@@ -37,7 +37,7 @@ namespace TomatoBot
                 {
                     await new ConnectorClient(new Uri(activity.ServiceUrl))
                         .Conversations
-                        .ReplyToActivityAsync(activity.CreateReply(responce));
+                        .ReplyToActivityAsync(activity.CreateReply(responce, locale: "ru"));
                 }
             }
 
