@@ -169,6 +169,8 @@
     <Compile Include="BotCommands\GetCurrencyCommand.cs" />
     <Compile Include="BotCommands\GetScoreForUserCommand.cs" />
     <Compile Include="BotCommands\GetTotalConversationScoreCommand.cs" />
+    <Compile Include="BotCommands\HelpComand.cs" />
+    <Compile Include="BotCommands\ICommandWithHelpLine.cs" />
     <Compile Include="BotCommands\IncrementScoreForUserCommand.cs" />
     <Compile Include="BotCommands\PersonalBotCommandBase.cs" />
     <Compile Include="BotCommands\RudeAnswerCommand.cs" />

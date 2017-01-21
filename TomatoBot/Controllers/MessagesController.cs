@@ -14,16 +14,28 @@ namespace TomatoBot
     {
         public MessagesController()
         {
+            var getCurrencyCommand = new GetCurrencyCommand();
+            var getTotalScoreCommand = new GetTotalConversationScoreCommand(ScoreRepository);
+            var getScoreForUserCommand = new GetScoreForUserCommand(ScoreRepository);
+            var setScoreForUser = new SetScoreForUserCommand(ScoreRepository);
+            var incrementScoreForUser = new IncrementScoreForUserCommand(ScoreRepository);
+
             _botCommands = new AllHandleCommandsAggregator(
                 new DuplicatedMemeCommand(MemesRepository),
                 new UpdateUserDataCommand(ScoreRepository),
                 new FirstHandleCommandAggregator(
-                    new GetCurrencyCommand(),
-                    new GetTotalConversationScoreCommand(ScoreRepository),
-                    new IncrementScoreForUserCommand(ScoreRepository),
-                    new GetScoreForUserCommand(ScoreRepository),
-                    new SetScoreForUserCommand(ScoreRepository),
+                    getCurrencyCommand,
+                    getScoreForUserCommand,
+                    getTotalScoreCommand,
+                    setScoreForUser,
+                    incrementScoreForUser,
                     new DetermineWrongLayoutCommand(ScoreRepository),
+                    new HelpComand(
+                        getCurrencyCommand,
+                        getScoreForUserCommand,
+                        getTotalScoreCommand,
+                        setScoreForUser,
+                        incrementScoreForUser),
                     new RudeAnswerCommand()));
         }
 

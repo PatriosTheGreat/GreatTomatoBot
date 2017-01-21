@@ -6,12 +6,18 @@ using Microsoft.Bot.Connector;
 
 namespace TomatoBot.BotCommands
 {
-    public sealed class GetCurrencyCommand : IBotCommand
+    public sealed class GetCurrencyCommand : IBotCommand, ICommandWithHelpLine
     {
         public bool CanExecute(Activity activity)
         {
             return activity.IsMessageForBot() && GetOperationType(activity.Text) != CurrencyOperationType.None;
         }
+
+        public string CommandName => "getCurrency";
+
+        public string Description => "отображает курс евро или доллара к рублю";
+
+        public string Sample => "/eurrub";
 
         public string ExecuteAndGetResponse(Activity activity)
         {

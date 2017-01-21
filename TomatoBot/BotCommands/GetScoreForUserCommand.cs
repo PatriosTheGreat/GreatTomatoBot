@@ -5,12 +5,18 @@ using System.Linq;
 
 namespace TomatoBot.BotCommands
 {
-    public sealed class GetScoreForUserCommand : PersonalBotCommandBase
+    public sealed class GetScoreForUserCommand : PersonalBotCommandBase, ICommandWithHelpLine
     {
         public GetScoreForUserCommand(ScoreRepository scoreRepository) : base(scoreRepository)
         {
         }
-        
+
+        public string CommandName => "getScoreForUser";
+
+        public string Description => "отображает счет относительно определенного участника чата";
+
+        public string Sample => "/score @UserName";
+
         public override bool CanExecute(Activity activity)
         {
             return base.CanExecute(activity) && CommandUserRegex.IsMatch(activity.Text);

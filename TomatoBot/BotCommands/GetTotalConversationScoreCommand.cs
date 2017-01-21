@@ -5,11 +5,17 @@ using TomatoBot.Reository;
 
 namespace TomatoBot.BotCommands
 {
-    public class GetTotalConversationScoreCommand : PersonalBotCommandBase
+    public class GetTotalConversationScoreCommand : PersonalBotCommandBase, ICommandWithHelpLine
     {
         public GetTotalConversationScoreCommand(ScoreRepository repository) : base(repository)
         {
         }
+
+        public string CommandName => "getTotalScore";
+
+        public string Description => "отображает общий счет в чате";
+
+        public string Sample => "/score";
 
         public override bool CanExecute(Activity activity)
         {
@@ -23,7 +29,6 @@ namespace TomatoBot.BotCommands
             return $"{userScopes}{ActivityExtension.NewLine}Всего {scores.Sum(score => score.Score)}";
         }
         
-        private static readonly Regex CommandUserRegex =
-            new Regex("(/|(@GreatTomatoBot ))(счет|score)");
+        private static readonly Regex CommandUserRegex = new Regex("(/|(@GreatTomatoBot ))(счет|score)");
     }
 }

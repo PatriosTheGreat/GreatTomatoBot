@@ -4,11 +4,17 @@ using TomatoBot.Reository;
 
 namespace TomatoBot.BotCommands
 {
-    public sealed class IncrementScoreForUserCommand : PersonalBotCommandBase
+    public sealed class IncrementScoreForUserCommand : PersonalBotCommandBase, ICommandWithHelpLine
     {
         public IncrementScoreForUserCommand(ScoreRepository scoreRepository) : base(scoreRepository)
-        {   
+        {
         }
+
+        public string CommandName => "incrementScoreForUser";
+
+        public string Description => "увеличивает счет определенному участнику чата";
+
+        public string Sample => "@GreatTomatoBot @UserName +";
 
         public override bool CanExecute(Activity activity)
         {

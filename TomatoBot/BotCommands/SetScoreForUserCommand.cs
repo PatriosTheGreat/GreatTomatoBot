@@ -5,11 +5,17 @@ using TomatoBot.Reository;
 
 namespace TomatoBot.BotCommands
 {
-    public sealed class SetScoreForUserCommand : PersonalBotCommandBase
+    public sealed class SetScoreForUserCommand : PersonalBotCommandBase, ICommandWithHelpLine
     {
         public SetScoreForUserCommand(ScoreRepository scoreRepository) : base(scoreRepository)
         {
         }
+
+        public string CommandName => "setScoreForUser";
+
+        public string Description => "устанавливает счет для определенного пользователя чата";
+
+        public string Sample => "/set score @UserName 0";
 
         public override bool CanExecute(Activity activity)
         {
