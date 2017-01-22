@@ -20,6 +20,7 @@ namespace TomatoBot
             var setScoreForUser = new SetScoreForUserCommand(ScoreRepository);
             var incrementScoreForUser = new IncrementScoreForUserCommand(ScoreRepository);
             var getNowPlayingMoovies = new GetNowPlayingMoovies(MoovieRepository);
+            var getUpcomingMoovies = new GetUpcomingMoovies(MoovieRepository);
 
             _botCommands = new AllHandleCommandsAggregator(
                 new DuplicatedMemeCommand(MemesRepository),
@@ -31,6 +32,7 @@ namespace TomatoBot
                     setScoreForUser,
                     incrementScoreForUser,
                     getNowPlayingMoovies,
+                    getUpcomingMoovies,
                     new DetermineWrongLayoutCommand(ScoreRepository),
                     new HelpComand(
                         getCurrencyCommand,
@@ -38,7 +40,8 @@ namespace TomatoBot
                         getTotalScoreCommand,
                         setScoreForUser,
                         incrementScoreForUser,
-                        getNowPlayingMoovies),
+                        getNowPlayingMoovies,
+                        getUpcomingMoovies),
                     new RudeAnswerCommand()));
         }
 
@@ -52,7 +55,7 @@ namespace TomatoBot
                 {
                     await new ConnectorClient(new Uri(activity.ServiceUrl))
                         .Conversations
-                        .ReplyToActivityAsync(activity.CreateReply(responce, locale: "ru"));
+                        .ReplyToActivityAsync(activity.CreateReply(responce));
                 }
             }
 

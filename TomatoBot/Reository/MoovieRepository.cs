@@ -12,6 +12,11 @@ namespace TomatoBot.Reository
             return GetMooviesByMethod("now_playing");
         }
 
+        public MoovieCollection GetUpcomingPlaying()
+        {
+            return GetMooviesByMethod("upcoming");
+        }
+
         private static MoovieCollection GetMooviesByMethod(string methodName)
         {
             using (var client = new HttpClient())

@@ -165,11 +165,13 @@
     <Compile Include="BotCommands\ChannelUserData.cs" />
     <Compile Include="BotCommands\DetermineWrongLayoutCommand.cs" />
     <Compile Include="BotCommands\DuplicatedMemeCommand.cs" />
+    <Compile Include="BotCommands\Emojies.cs" />
     <Compile Include="BotCommands\FirstHandleCommandAggregator.cs" />
     <Compile Include="BotCommands\GetNowPlayingMoovies.cs" />
     <Compile Include="BotCommands\GetCurrencyCommand.cs" />
     <Compile Include="BotCommands\GetScoreForUserCommand.cs" />
     <Compile Include="BotCommands\GetTotalConversationScoreCommand.cs" />
+    <Compile Include="BotCommands\GetUpcomingMoovies.cs" />
     <Compile Include="BotCommands\HelpComand.cs" />
     <Compile Include="BotCommands\ICommandWithHelpLine.cs" />
     <Compile Include="BotCommands\IncrementScoreForUserCommand.cs" />

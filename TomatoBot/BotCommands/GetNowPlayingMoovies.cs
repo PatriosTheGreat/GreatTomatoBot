@@ -13,7 +13,7 @@ namespace TomatoBot.BotCommands
 
         public string CommandName => "mooviesPlaying";
 
-        public string Description => "Отображает фильмы, которые сейчас идут в кино";
+        public string Description => "отображает фильмы, которые сейчас идут в кино";
 
         public string Sample => "/mooviesplaying";
 
@@ -25,7 +25,7 @@ namespace TomatoBot.BotCommands
 
             return string.Join(
                 ActivityExtension.NewLine,
-                moovies.Results.Select(moovie => $"{moovie.Title} Рейтинг {moovie.VoteAverage}"));
+                moovies.Results.Select(moovie => $"\"{moovie.Title}\" Рейтинг: {moovie.VoteAverage} {Emojies.GetFlag(moovie.OriginalLanguage)}"));
         }
 
         private readonly MoovieRepository _moovieRepository;
