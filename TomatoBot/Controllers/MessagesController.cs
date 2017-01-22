@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Bot.Connector;
 using TomatoBot.BotCommands;
-using TomatoBot.Reository;
+using TomatoBot.Repository;
 
 namespace TomatoBot
 {

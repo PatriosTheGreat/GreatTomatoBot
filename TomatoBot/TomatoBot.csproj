@@ -190,10 +190,10 @@
     <Compile Include="Model\Moovies\Moovie.cs" />
     <Compile Include="Model\Moovies\MoovieCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reository\AzureFileDataManager.cs" />
-    <Compile Include="Reository\MemesRepository.cs" />
-    <Compile Include="Reository\MoovieRepository.cs" />
-    <Compile Include="Reository\ScoreRepository.cs" />
+    <Compile Include="Repository\AzureFileDataManager.cs" />
+    <Compile Include="Repository\MemesRepository.cs" />
+    <Compile Include="Repository\MoovieRepository.cs" />
+    <Compile Include="Repository\ScoreRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

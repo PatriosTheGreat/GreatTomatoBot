@@ -3,7 +3,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using TomatoBot.Model.Moovies;
 
-namespace TomatoBot.Reository
+namespace TomatoBot.Repository
 {
     public sealed class MoovieRepository
     {

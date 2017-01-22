@@ -1,5 +1,5 @@
 ﻿using Microsoft.Bot.Connector;
-using TomatoBot.Reository;
+using TomatoBot.Repository;
 
 namespace TomatoBot.BotCommands
 {

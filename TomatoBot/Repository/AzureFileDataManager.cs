@@ -6,7 +6,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
 
-namespace TomatoBot.Reository
+namespace TomatoBot.Repository
 {
     public sealed class AzureFileDataManager<TData>
     {

@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Bot.Connector;
 using TomatoBot.Model;
-using TomatoBot.Reository;
+using TomatoBot.Repository;
 
 namespace TomatoBot.BotCommands
 {

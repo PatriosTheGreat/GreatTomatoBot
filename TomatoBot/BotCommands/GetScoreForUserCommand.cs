@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Microsoft.Bot.Connector;
-using TomatoBot.Reository;
+using TomatoBot.Repository;
 using System.Linq;
 
 namespace TomatoBot.BotCommands

@@ -2,7 +2,7 @@
 using System.Linq;
 using TomatoBot.Model;
 
-namespace TomatoBot.Reository
+namespace TomatoBot.Repository
 {
     public sealed class MemesRepository
     {
