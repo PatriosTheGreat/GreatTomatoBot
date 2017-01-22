@@ -9,16 +9,26 @@ namespace TomatoBot.Reository
     {
         public MoovieCollection GetNowPlaying()
         {
+            return GetMooviesByMethod("now_playing");
+        }
+
+        private static MoovieCollection GetMooviesByMethod(string methodName)
+        {
             using (var client = new HttpClient())
             {
-                var result = client.GetStringAsync(GetUrlForMethod("now_playing")).Result;
-                return JsonConvert.DeserializeObject<MoovieCollection>(result);
+                var resultWorld = client.GetStringAsync(GetUrlForMethod(methodName)).Result;
+                return JsonConvert.DeserializeObject<MoovieCollection>(resultWorld);
             }
+        }
+
+        private static string GetUrlForMethodWithRussiaRegion(string methodName)
+        {
+            return GetUrlForMethod(methodName) + "&region=ru";
         }
 
         private static string GetUrlForMethod(string methodName)
         {
-            return $"{ApiBasePath}/{methodName}?api_key={ConfigurationManager.AppSettings["TheMovieDbKey"]}&language=ru-RU";
+            return $"{ApiBasePath}/{methodName}?api_key={ConfigurationManager.AppSettings["TheMovieDbKey"]}&language=ru-RU&region=ru";
         }
 
         private const string ApiBasePath = "https://api.themoviedb.org/3/movie";

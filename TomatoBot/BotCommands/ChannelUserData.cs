@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -14,10 +13,10 @@ namespace TomatoBot.BotCommands
 
                 try
                 {
-                  //  var fromToken = JObject.Parse(channelData).SelectToken("message").SelectToken("from");
+                    var fromToken = JObject.Parse(channelData).SelectToken("message").SelectToken("from");
 
-                    UserNickname = string.Empty; // GetFromString(fromToken, "username");
-                    UserFirstName = String.Empty; // GetFromString(fromToken, "first_name");
+                    UserNickname = GetFromString(fromToken, "username");
+                    UserFirstName = GetFromString(fromToken, "first_name");
                 }
                 catch (JsonException)
                 {
