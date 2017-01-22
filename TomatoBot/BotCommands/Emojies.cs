@@ -9,6 +9,7 @@
         public const string IrelandFlag = "🇮🇪";
         public const string KoreaFlag = "🇰🇷";
         public const string JapanFlag = "🇯🇵";
+        public const string FrenchFlag = "🇫🇷";
 
         public static string GetFlag(string country)
         {
@@ -22,6 +23,8 @@
                     return GermanyFlag;
                 case "ko":
                     return KoreaFlag;
+                case "fr":
+                    return FrenchFlag;
                 default:
                     return country;
             }
