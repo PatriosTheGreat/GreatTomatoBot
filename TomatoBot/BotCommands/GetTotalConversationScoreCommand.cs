@@ -5,7 +5,7 @@ using TomatoBot.Reository;
 
 namespace TomatoBot.BotCommands
 {
-    public class GetTotalConversationScoreCommand : PersonalBotCommandBase, ICommandWithHelpLine
+    public class GetTotalConversationScoreCommand : ScoreCommandBase, ICommandWithHelpLine
     {
         public GetTotalConversationScoreCommand(ScoreRepository repository) : base(repository)
         {

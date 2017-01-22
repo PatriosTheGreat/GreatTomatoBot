@@ -19,6 +19,7 @@ namespace TomatoBot
             var getScoreForUserCommand = new GetScoreForUserCommand(ScoreRepository);
             var setScoreForUser = new SetScoreForUserCommand(ScoreRepository);
             var incrementScoreForUser = new IncrementScoreForUserCommand(ScoreRepository);
+            var getNowPlayingMoovies = new GetNowPlayingMoovies(MoovieRepository);
 
             _botCommands = new AllHandleCommandsAggregator(
                 new DuplicatedMemeCommand(MemesRepository),
@@ -29,13 +30,15 @@ namespace TomatoBot
                     getTotalScoreCommand,
                     setScoreForUser,
                     incrementScoreForUser,
+                    getNowPlayingMoovies,
                     new DetermineWrongLayoutCommand(ScoreRepository),
                     new HelpComand(
                         getCurrencyCommand,
                         getScoreForUserCommand,
                         getTotalScoreCommand,
                         setScoreForUser,
-                        incrementScoreForUser),
+                        incrementScoreForUser,
+                        getNowPlayingMoovies),
                     new RudeAnswerCommand()));
         }
 
@@ -59,5 +62,6 @@ namespace TomatoBot
         private readonly IBotCommand _botCommands;
         private static readonly MemesRepository MemesRepository = new MemesRepository();
         private static readonly ScoreRepository ScoreRepository = new ScoreRepository();
+        private static readonly MoovieRepository MoovieRepository = new MoovieRepository();
     }
 }

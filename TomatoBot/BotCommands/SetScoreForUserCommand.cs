@@ -5,7 +5,7 @@ using TomatoBot.Reository;
 
 namespace TomatoBot.BotCommands
 {
-    public sealed class SetScoreForUserCommand : PersonalBotCommandBase, ICommandWithHelpLine
+    public sealed class SetScoreForUserCommand : ScoreCommandBase, ICommandWithHelpLine
     {
         public SetScoreForUserCommand(ScoreRepository scoreRepository) : base(scoreRepository)
         {

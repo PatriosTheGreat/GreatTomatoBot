@@ -5,9 +5,9 @@ using TomatoBot.Reository;
 
 namespace TomatoBot.BotCommands
 {
-    public abstract class PersonalBotCommandBase : IBotCommand
+    public abstract class ScoreCommandBase : IBotCommand
     {
-        protected PersonalBotCommandBase(ScoreRepository scoreRepository)
+        protected ScoreCommandBase(ScoreRepository scoreRepository)
         {
             ScoreRepository = scoreRepository;
         }

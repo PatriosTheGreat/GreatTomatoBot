@@ -4,7 +4,7 @@ using TomatoBot.Reository;
 
 namespace TomatoBot.BotCommands
 {
-    public sealed class IncrementScoreForUserCommand : PersonalBotCommandBase, ICommandWithHelpLine
+    public sealed class IncrementScoreForUserCommand : ScoreCommandBase, ICommandWithHelpLine
     {
         public IncrementScoreForUserCommand(ScoreRepository scoreRepository) : base(scoreRepository)
         {

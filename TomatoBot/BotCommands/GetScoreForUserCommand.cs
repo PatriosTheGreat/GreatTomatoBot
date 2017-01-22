@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace TomatoBot.BotCommands
 {
-    public sealed class GetScoreForUserCommand : PersonalBotCommandBase, ICommandWithHelpLine
+    public sealed class GetScoreForUserCommand : ScoreCommandBase, ICommandWithHelpLine
     {
         public GetScoreForUserCommand(ScoreRepository scoreRepository) : base(scoreRepository)
         {
