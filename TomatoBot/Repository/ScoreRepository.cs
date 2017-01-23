@@ -25,7 +25,7 @@ namespace TomatoBot.Repository
         public MemberScore GetScoreForUser(string conversationId, string userInfo)
         {
             return _scores.FirstOrDefault(
-                score => score.ConversationId == conversationId && (score.UserFirstName == userInfo || score.UserNickname == userInfo));
+                score => score.ConversationId == conversationId && (score.UserId == userInfo || score.UserFirstName == userInfo || score.UserNickname == userInfo));
         }
 
         public MemberScore[] GetScoresInConversation(string conversationId)

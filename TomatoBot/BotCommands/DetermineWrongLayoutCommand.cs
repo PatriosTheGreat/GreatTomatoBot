@@ -24,7 +24,7 @@ namespace TomatoBot.BotCommands
 
         public string ExecuteAndGetResponse(Activity activity)
         {
-            var userInfo = _repository.GetScoreForUser(activity.Conversation.Id, activity.From.Name);
+            var userInfo = _repository.GetScoreForUser(activity.Conversation.Id, activity.From.Id);
             if (userInfo != null)
             {
                 _repository.SetScoreForUser(activity.Conversation.Id, userInfo.UserId, userInfo.Score + 1);
