@@ -1,4 +1,4 @@
-﻿namespace TomatoBot.Model.Moovies
+﻿namespace TomatoBot.Model.Movies
 {
     public class Dates
     {

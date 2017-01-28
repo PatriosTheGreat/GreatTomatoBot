@@ -1,6 +1,6 @@
 ﻿namespace TomatoBot.BotCommands
 {
-    public static class Emojies
+    public static class Emojis
     {
         public const string UsaFlag = "🇺🇸";
         public const string RussianFlag = "🇷🇺";

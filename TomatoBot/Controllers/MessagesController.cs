@@ -19,8 +19,8 @@ namespace TomatoBot
             var getScoreForUserCommand = new GetScoreForUserCommand(ScoreRepository);
             var setScoreForUser = new SetScoreForUserCommand(ScoreRepository);
             var incrementScoreForUser = new IncrementScoreForUserCommand(ScoreRepository);
-            var getNowPlayingMoovies = new GetNowPlayingMoovies(MoovieRepository);
-            var getUpcomingMoovies = new GetUpcomingMoovies(MoovieRepository);
+            var getNowPlayingMovies = new GetNowPlayingMovies(MovieRepository);
+            var getUpcomingMovies = new GetUpcomingMovies(MovieRepository);
 
             _botCommands = new AllHandleCommandsAggregator(
                 new DuplicatedMemeCommand(MemesRepository),
@@ -31,8 +31,8 @@ namespace TomatoBot
                     getTotalScoreCommand,
                     setScoreForUser,
                     incrementScoreForUser,
-                    getNowPlayingMoovies,
-                    getUpcomingMoovies,
+                    getNowPlayingMovies,
+                    getUpcomingMovies,
                     new DetermineWrongLayoutCommand(ScoreRepository),
                     new HelpComand(
                         getCurrencyCommand,
@@ -40,8 +40,8 @@ namespace TomatoBot
                         getTotalScoreCommand,
                         setScoreForUser,
                         incrementScoreForUser,
-                        getNowPlayingMoovies,
-                        getUpcomingMoovies),
+                        getNowPlayingMovies,
+                        getUpcomingMovies),
                     new RudeAnswerCommand()));
         }
 
@@ -65,6 +65,6 @@ namespace TomatoBot
         private readonly IBotCommand _botCommands;
         private static readonly MemesRepository MemesRepository = new MemesRepository();
         private static readonly ScoreRepository ScoreRepository = new ScoreRepository();
-        private static readonly MoovieRepository MoovieRepository = new MoovieRepository();
+        private static readonly MovieRepository MovieRepository = new MovieRepository();
     }
 }

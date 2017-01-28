@@ -165,13 +165,13 @@
     <Compile Include="BotCommands\ChannelUserData.cs" />
     <Compile Include="BotCommands\DetermineWrongLayoutCommand.cs" />
     <Compile Include="BotCommands\DuplicatedMemeCommand.cs" />
-    <Compile Include="BotCommands\Emojies.cs" />
+    <Compile Include="BotCommands\Emojis.cs" />
     <Compile Include="BotCommands\FirstHandleCommandAggregator.cs" />
-    <Compile Include="BotCommands\GetNowPlayingMoovies.cs" />
+    <Compile Include="BotCommands\GetNowPlayingMovies.cs" />
     <Compile Include="BotCommands\GetCurrencyCommand.cs" />
     <Compile Include="BotCommands\GetScoreForUserCommand.cs" />
     <Compile Include="BotCommands\GetTotalConversationScoreCommand.cs" />
-    <Compile Include="BotCommands\GetUpcomingMoovies.cs" />
+    <Compile Include="BotCommands\GetUpcomingMovies.cs" />
     <Compile Include="BotCommands\HelpComand.cs" />
     <Compile Include="BotCommands\ICommandWithHelpLine.cs" />
     <Compile Include="BotCommands\IncrementScoreForUserCommand.cs" />
@@ -186,13 +186,13 @@
     <Compile Include="BotCommands\IBotCommand.cs" />
     <Compile Include="Model\MemesInHistory.cs" />
     <Compile Include="Model\MemberScore.cs" />
-    <Compile Include="Model\Moovies\Dates.cs" />
-    <Compile Include="Model\Moovies\Moovie.cs" />
-    <Compile Include="Model\Moovies\MoovieCollection.cs" />
+    <Compile Include="Model\Movies\Dates.cs" />
+    <Compile Include="Model\Movies\Movie.cs" />
+    <Compile Include="Model\Movies\MovieCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AzureFileDataManager.cs" />
     <Compile Include="Repository\MemesRepository.cs" />
-    <Compile Include="Repository\MoovieRepository.cs" />
+    <Compile Include="Repository\MovieRepository.cs" />
     <Compile Include="Repository\ScoreRepository.cs" />
   </ItemGroup>
   <ItemGroup>

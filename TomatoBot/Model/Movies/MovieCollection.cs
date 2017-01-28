@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace TomatoBot.Model.Moovies
+namespace TomatoBot.Model.Movies
 {
-    public class MoovieCollection
+    public class MovieCollection
     {
         public int Page { get; set; }
 
-        public List<Moovie> Results { get; set; }
+        public List<Movie> Results { get; set; }
 
         public Dates Dates { get; set; }
 

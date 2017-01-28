@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace TomatoBot.Model.Moovies
+namespace TomatoBot.Model.Movies
 {
-    public class Moovie
+    public class Movie
     {
         public bool Adult { get; set; }
 
