@@ -8,7 +8,7 @@ namespace TomatoBot.BotCommands
     {
         public string ExecuteAndGetResponse(Activity activity)
         {
-            var index = (GetLastAnswer(activity.Conversation.Id) + _random.Next(0, Answers.Length - 1)) % Answers.Length;
+            var index = (GetLastAnswer(activity.Conversation.Id) + _random.Next(0, Answers.Length - 1) + 1) % Answers.Length;
             return Answers[index];
         }
 

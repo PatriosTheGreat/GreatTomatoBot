@@ -43,17 +43,17 @@ namespace TomatoBot.BotCommands
 
         private static bool IsSmile(string word) => word.Length == 2 && (word.First() == ':' || word.First() == ';');
 
-        // ToDo: Исправить определение неправильного английского слова
-        private bool IsRussianIncorrect(string message) => IsIncorrectLanguage(message, RussianWordRegex, RussianIsoCode, EnglishWrongIsoCode);
-
-        private bool IsEnglishIncorrect(string message) => IsIncorrectLanguage(message, EnglishWordRegex, EnglishIsoCode, RussianWrongIsoCode);
-
-        private bool IsIncorrectLanguage(string message, Regex languageRegex, string languageIso, string wrongLanguageIso)
+        private bool IsEnglishIncorrect(string message)
         {
-            var text = string.Join(" ", GetWords(message, languageRegex));
+            if (GetWords(message, RussianWordRegex).Any())
+            {
+                return false;
+            }
+
+            var text = string.Join(" ", GetWords(message, EnglishWordRegex));
 
             var languageRates = _naiveBayesLanguageIdentifier.Identify(text).Select(rate => rate.Item1.Iso639_2T).ToArray();
-            return Array.IndexOf(languageRates, languageIso) > Array.IndexOf(languageRates, wrongLanguageIso);
+            return Array.IndexOf(languageRates, EnglishIsoCode) > Array.IndexOf(languageRates, RussianWrongIsoCode);
         }
 
         private static IEnumerable<string> GetWords(string message, Regex languageRegex) => from object word in languageRegex.Matches(message) select word.ToString();
@@ -63,9 +63,7 @@ namespace TomatoBot.BotCommands
         private static readonly Regex EnglishWordRegex = new Regex("[a-zA-Z\\]\\];',\\.\\{\\}\\:<>`~\"]+", RegexOptions.Compiled);
         private static readonly Regex RussianWordRegex = new Regex("[а-яА-Я]+", RegexOptions.Compiled);
         private const string NgramsEmbeddedFileName = "TomatoBot.Core14.profile.xml";
-        private const string RussianIsoCode = "rus";
         private const string EnglishIsoCode = "eng";
         private const string RussianWrongIsoCode = "rusWrong";
-        private const string EnglishWrongIsoCode = "engWrong";
     }
 }

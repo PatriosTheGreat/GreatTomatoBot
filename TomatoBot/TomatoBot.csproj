@@ -167,6 +167,7 @@
     <Compile Include="BotCommands\DuplicatedMemeCommand.cs" />
     <Compile Include="BotCommands\Emojis.cs" />
     <Compile Include="BotCommands\FirstHandleCommandAggregator.cs" />
+    <Compile Include="BotCommands\GetMovieReleaseDate.cs" />
     <Compile Include="BotCommands\GetNowPlayingMovies.cs" />
     <Compile Include="BotCommands\GetCurrencyCommand.cs" />
     <Compile Include="BotCommands\GetScoreForUserCommand.cs" />

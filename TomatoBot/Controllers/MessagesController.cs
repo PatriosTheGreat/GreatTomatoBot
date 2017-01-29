@@ -21,6 +21,7 @@ namespace TomatoBot
             var incrementScoreForUser = new IncrementScoreForUserCommand(ScoreRepository);
             var getNowPlayingMovies = new GetNowPlayingMovies(MovieRepository);
             var getUpcomingMovies = new GetUpcomingMovies(MovieRepository);
+            var getMovieReleaseDate = new GetMovieReleaseDate(MovieRepository);
 
             _botCommands = new AllHandleCommandsAggregator(
                 new DuplicatedMemeCommand(MemesRepository),
@@ -33,6 +34,7 @@ namespace TomatoBot
                     incrementScoreForUser,
                     getNowPlayingMovies,
                     getUpcomingMovies,
+                    getMovieReleaseDate,
                     new DetermineWrongLayoutCommand(ScoreRepository),
                     new HelpComand(
                         getCurrencyCommand,
@@ -41,7 +43,8 @@ namespace TomatoBot
                         setScoreForUser,
                         incrementScoreForUser,
                         getNowPlayingMovies,
-                        getUpcomingMovies),
+                        getUpcomingMovies,
+                        getMovieReleaseDate),
                     new RudeAnswerCommand()));
         }
 
