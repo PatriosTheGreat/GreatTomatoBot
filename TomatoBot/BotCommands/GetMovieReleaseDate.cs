@@ -18,11 +18,8 @@ namespace TomatoBot.BotCommands
 
         public string Sample => $"@{ActivityExtension.BotName} {ReleaseDate} название фильма";
         
-        public bool CanExecute(Activity activity)
-        {
-            return activity.IsMessageForBot() && activity.Text.Contains(ReleaseDate);
-        }
-
+        public bool CanExecute(Activity activity) => activity.IsMessageForBot() && activity.Text.Contains(ReleaseDate);
+        
         public string ExecuteAndGetResponse(Activity activity)
         {
             var query = GetMovieName(activity);
@@ -39,7 +36,7 @@ namespace TomatoBot.BotCommands
 
             return string.Join(
                 ActivityExtension.NewLine, 
-                movies.Results.Take(MaxMoviesCount).OrderByDescending(movie => DateTime.Parse(movie.ReleaseDate)).Select(movie => $"{movie.Title} {movie.ReleaseDate}"));
+                movies.Results.Take(MaxMoviesCount).OrderByDescending(movie => movie.ReleaseDate).Select(movie => $"{movie.Title} {movie.ReleaseDate}"));
         }
         
         private static string GetMovieName(IMessageActivity activity)
