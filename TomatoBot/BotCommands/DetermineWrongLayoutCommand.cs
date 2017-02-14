@@ -30,7 +30,7 @@ namespace TomatoBot.BotCommands
             if (userInfo != null)
             {
                 _repository.SetScoreForUser(activity.Conversation.Id, userInfo.UserId, userInfo.Score + 1);
-                return $"{userInfo.PersonalScore()}{ActivityExtension.NewLine}Наверно ты имел ввиду:{ActivityExtension.NewLine}{GetOriginalText(activity.Text)}";
+                return $"{userInfo.PersonalScore()}{ActivityExtension.NewLine}Вы, возможно, имели ввиду:{ActivityExtension.NewLine}{GetOriginalText(activity.Text)}";
             }
 
             return string.Empty;
@@ -48,7 +48,7 @@ namespace TomatoBot.BotCommands
             return string.Join(" ", filteredWords);
         }
 
-        private static bool IsSmile(string word) => word.Length == 2 && (word.First() == ':' || word.First() == ';');
+        private static bool IsSmile(string word) => word.Length == 2 && SmileFirstSymbols.Contains(word.First());
 
         private bool IsEnglishIncorrect(string message)
         {
@@ -78,6 +78,8 @@ namespace TomatoBot.BotCommands
         private const string EnglishIsoCode = "eng";
         private const string RussianWrongIsoCode = "rusWrong";
 
+        private static readonly char[] SmileFirstSymbols = {':', ';', '='};
+
         private static Dictionary<char, char> SwitchLayout = new Dictionary<char, char>
         {
             ['q'] = 'й', ['w'] = 'ц', ['e'] = 'у', ['r'] = 'к', ['t'] = 'е', ['y'] = 'н', ['u'] = 'г', ['i'] = 'ш', ['o'] = 'щ', ['p'] = 'з', ['a'] = 'ф', ['s'] = 'ы', ['d'] = 'в',
@@ -85,7 +87,15 @@ namespace TomatoBot.BotCommands
             ['Q'] = 'Й', ['W'] = 'Ц', ['E'] = 'У', ['R'] = 'К', ['T'] = 'Е', ['Y'] = 'Н', ['U'] = 'Г', ['I'] = 'Ш', ['O'] = 'Щ', ['P'] = 'З', ['A'] = 'Ф', ['S'] = 'Ы', ['D'] = 'В',
             ['F'] = 'А', ['G'] = 'П', ['H'] = 'Р', ['J'] = 'О', ['K'] = 'Л', ['L'] = 'Д', ['Z'] = 'Я', ['X'] = 'Ч', ['C'] = 'С', ['V'] = 'М', ['B'] = 'И', ['N'] = 'Т', ['M'] = 'Ь',
             [','] = 'б', ['<'] = 'Б', ['.'] = 'ю', ['>'] = 'Ю', ['&'] = '?', [';'] = 'ж', [':'] = 'Ж', ['\''] = 'э', ['"'] = 'Э', ['['] = 'х', ['{'] = 'Х', [']'] = 'ъ', ['}'] = 'Ъ',
-            ['`'] = 'ё', ['~'] = 'Ё'
+            ['`'] = 'ё', ['~'] = 'Ё', ['?'] = ','
         };
+
+        public static char[] SmileFirstSymbols1
+        {
+            get
+            {
+                return SmileFirstSymbols;
+            }
+        }
     }
 }
