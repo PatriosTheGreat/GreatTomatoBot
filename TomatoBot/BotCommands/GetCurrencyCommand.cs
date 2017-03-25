@@ -15,15 +15,27 @@ namespace TomatoBot.BotCommands
 
         public string CommandName => "getCurrency";
 
-        public string Description => "отображает курс евро или доллара к рублю";
+        public string Description => "отображает курс евро или доллара к рублю или евро к доллару";
 
         public string Sample => "/eurrub";
 
         public string ExecuteAndGetResponse(Activity activity)
         {
+            var type = GetOperationType(activity.Text);
+            if (type == CurrencyOperationType.RubToEny)
+            {
+                return
+                    $"{GetCurrency(CurrencyOperationType.EurToRub)}{ActivityExtension.NewLine}{GetCurrency(CurrencyOperationType.UsdToRub)}";
+            }
+
+            return GetCurrency(type);
+        }
+
+        private string GetCurrency(CurrencyOperationType type)
+        {
             var response = string.Empty;
             string urlToCurrency;
-            switch (GetOperationType(activity.Text))
+            switch (type)
             {
                 case CurrencyOperationType.UsdToRub:
                     urlToCurrency = "https://www.bloomberg.com/quote/USDRUB:CUR";
@@ -31,10 +43,13 @@ namespace TomatoBot.BotCommands
                 case CurrencyOperationType.EurToRub:
                     urlToCurrency = "https://www.bloomberg.com/quote/EURRUB:CUR";
                     break;
+                case CurrencyOperationType.EurToUsd:
+                    urlToCurrency = "https://www.bloomberg.com/quote/EURUSD:CUR";
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            
+
             var currencyString = new WebClient().DownloadString(urlToCurrency);
             var currencyGroup = PriceRegex.Match(currencyString);
             if (currencyGroup.Length < 2)
@@ -43,31 +58,50 @@ namespace TomatoBot.BotCommands
             }
 
             response = currencyGroup.Groups[1].ToString();
-
             if (currencyString.Contains("price-container down"))
             {
-                response += " #СлаваРоссии!";
+                response += $" {GetPostfix(type)}!";
             }
 
             return response;
         }
 
+        private static string GetPostfix(CurrencyOperationType type)
+        {
+            switch (type)
+            {
+                case CurrencyOperationType.EurToUsd:
+                    return "#СлаваТрампу!";
+                default:
+                    return "#СлаваРоссии!";
+            }
+        }
+
         private static CurrencyOperationType GetOperationType(string message)
         {
             var lowerMessage = message.ToLower();
-            if (!RubWords.Any(lowerMessage.Contains))
-            {
-                return CurrencyOperationType.None;
-            }
+            var rubExists = RubWords.Any(lowerMessage.Contains);
+            var eurExists = EurWords.Any(lowerMessage.Contains);
+            var usdExists = UsdWords.Any(lowerMessage.Contains);
 
-            if (UsdWords.Any(lowerMessage.Contains))
+            if (rubExists && usdExists)
             {
                 return CurrencyOperationType.UsdToRub;
             }
 
-            if (EurWords.Any(lowerMessage.Contains))
+            if (rubExists && eurExists)
             {
                 return CurrencyOperationType.EurToRub;
+            }
+
+            if (usdExists && eurExists)
+            {
+                return CurrencyOperationType.EurToUsd;
+            }
+
+            if (rubExists)
+            {
+                return CurrencyOperationType.RubToEny;
             }
 
             return CurrencyOperationType.None;
@@ -82,6 +116,8 @@ namespace TomatoBot.BotCommands
         {
             UsdToRub,
             EurToRub,
+            EurToUsd,
+            RubToEny,
             None
         }
     }
