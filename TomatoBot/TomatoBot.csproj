@@ -175,6 +175,7 @@
     <Compile Include="BotCommands\GetUpcomingMovies.cs" />
     <Compile Include="BotCommands\HelpComand.cs" />
     <Compile Include="BotCommands\ICommandWithHelpLine.cs" />
+    <Compile Include="BotCommands\DecrementScoreForUserCommand.cs" />
     <Compile Include="BotCommands\IncrementScoreForUserCommand.cs" />
     <Compile Include="BotCommands\ScoreCommandBase.cs" />
     <Compile Include="BotCommands\RudeAnswerCommand.cs" />

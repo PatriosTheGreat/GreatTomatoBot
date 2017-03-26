@@ -19,6 +19,7 @@ namespace TomatoBot
             var getScoreForUserCommand = new GetScoreForUserCommand(ScoreRepository);
             var setScoreForUser = new SetScoreForUserCommand(ScoreRepository);
             var incrementScoreForUser = new IncrementScoreForUserCommand(ScoreRepository);
+            var decrementScoreForUser = new DecrementScoreForUserCommand(ScoreRepository);
             var getNowPlayingMovies = new GetNowPlayingMovies(MovieRepository);
             var getUpcomingMovies = new GetUpcomingMovies(MovieRepository);
             var getMovieReleaseDate = new GetMovieReleaseDate(MovieRepository);
@@ -32,6 +33,7 @@ namespace TomatoBot
                     getTotalScoreCommand,
                     setScoreForUser,
                     incrementScoreForUser,
+                    decrementScoreForUser,
                     getNowPlayingMovies,
                     getUpcomingMovies,
                     getMovieReleaseDate,
@@ -42,6 +44,7 @@ namespace TomatoBot
                         getTotalScoreCommand,
                         setScoreForUser,
                         incrementScoreForUser,
+                        decrementScoreForUser,
                         getNowPlayingMovies,
                         getUpcomingMovies,
                         getMovieReleaseDate),
