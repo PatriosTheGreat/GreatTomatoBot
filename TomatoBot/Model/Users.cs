@@ -30,6 +30,8 @@
 
 		public int Score { get; }
 
+		public string Identity => string.IsNullOrEmpty(Nickname) ? FirstName : Nickname;
+
 		public string PersonalScore()
 		{
 			var userName = "неизвестный";

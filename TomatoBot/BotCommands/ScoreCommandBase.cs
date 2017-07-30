@@ -20,7 +20,7 @@ namespace TomatoBot.BotCommands
 
         protected Users GetScoreForUserOrNull(IMessageActivity activity)
         {
-            return UserRepository.GetScoreForUser(activity.Conversation.Id, GetUserNameFromMessageOrNull(activity));
+            return UserRepository.GetUser(activity.Conversation.Id, GetUserNameFromMessageOrNull(activity));
         }
 
         private string GetUserNameFromMessageOrNull(IMessageActivity activity)

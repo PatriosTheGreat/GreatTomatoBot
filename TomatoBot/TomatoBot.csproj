@@ -184,6 +184,8 @@
     <Compile Include="Model\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AzureFileDataManager.cs" />
+    <Compile Include="Repository\DbRepository.cs" />
+    <Compile Include="Repository\MemesesRepository.cs" />
     <Compile Include="Repository\MemesRepository.cs" />
     <Compile Include="Repository\MovieRepository.cs" />
     <Compile Include="Repository\ScoreRepository.cs" />

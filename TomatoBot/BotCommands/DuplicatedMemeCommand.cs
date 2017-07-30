@@ -9,9 +9,10 @@ namespace TomatoBot.BotCommands
 {
     public sealed class DuplicatedMemeCommand : IBotCommand
     {
-        public DuplicatedMemeCommand(MemesRepository repository)
+        public DuplicatedMemeCommand(MemesesRepository repository, UsersRepository usersRepository)
         {
             _repository = repository;
+			_userRepository = usersRepository;
         }
 
         public bool CanExecute(Activity activity) => true;
@@ -31,17 +32,20 @@ namespace TomatoBot.BotCommands
                         !string.IsNullOrEmpty(userChannelData.UserNickname)
                             ? ("@" + userChannelData.UserNickname)
                             : !string.IsNullOrEmpty(userChannelData.UserFirstName) ? userChannelData.UserFirstName : "понятия не имею кем";
+					var user = _userRepository.GetUser(activity.Conversation.Id, userName);
 
-                    _repository.AddMemes(
-                        new MemesInHistory(
-                            activity.Conversation.Id,
-                            urlId,
-                            DateTime.UtcNow,
-                            userName));
+					_repository.AddMemes(
+                        new Memeses(
+							0,
+							DateTime.UtcNow,
+							user.Id,
+							urlId,
+							activity.Conversation.Id));
                 }
                 else
-                {
-                    responce += $"Боян этом мемес {url} уже был сканут {boyan.SendUser} примерно в {boyan.RecieveTimeUtc:o} utc!!! ";
+				{
+					var user = _userRepository.GetUserById(boyan.UserId);
+					responce += $"Боян этом мемес {url} уже был скинут {user.Identity} примерно в {boyan.SendTime:o} utc!!! ";
                 }
             }
 
@@ -65,6 +69,7 @@ namespace TomatoBot.BotCommands
             return stringBuilder.ToString();
         }
         
-        private readonly MemesRepository _repository;
-    }
+        private readonly MemesesRepository _repository;
+		private readonly UsersRepository _userRepository;
+	}
 }

@@ -8,12 +8,14 @@ namespace TomatoBot.Model
 			int id,
 			DateTime sendTime,
 			int userId,
-			string hash)
+			string hash,
+			string conversationId)
 		{
 			Id = id;
 			SendTime = sendTime;
 			UserId = userId;
 			Hash = hash;
+			ConversationId = conversationId;
 		}
 
 		public int Id { get; }
@@ -23,5 +25,7 @@ namespace TomatoBot.Model
 		public int UserId { get; }
 
 		public string Hash { get; }
+
+		public string ConversationId { get; }
 	}
 }

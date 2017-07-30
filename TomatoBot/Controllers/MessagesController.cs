@@ -25,7 +25,7 @@ namespace TomatoBot
             var getMovieReleaseDate = new GetMovieReleaseDate(MovieRepository);
 
             _botCommands = new AllHandleCommandsAggregator(
-                new DuplicatedMemeCommand(MemesRepository),
+                new DuplicatedMemeCommand(MemesRepository, UserRepository),
                 new UpdateUserDataCommand(UserRepository),
                 new FirstHandleCommandAggregator(
                     getCurrencyCommand,
@@ -69,7 +69,7 @@ namespace TomatoBot
         }
 
         private readonly IBotCommand _botCommands;
-        private static readonly MemesRepository MemesRepository = new MemesRepository();
+        private static readonly MemesesRepository MemesRepository = new MemesesRepository();
 		private static readonly UsersRepository UserRepository = new UsersRepository();
 		private static readonly MovieRepository MovieRepository = new MovieRepository();
     }

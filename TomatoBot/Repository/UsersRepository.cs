@@ -1,20 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Linq;
 using System.Data.SqlClient;
 using TomatoBot.Model;
-using Microsoft.Azure;
 
 namespace TomatoBot.Repository
 {
-	public class UsersRepository
+	public class UsersRepository : DbRepository
 	{
-		public UsersRepository()
-		{
-			_connectionString = CloudConfigurationManager.GetSetting("ConnectionString");
-		}
-
 		public void SetScoreForUser(string conversationId, string userId, int newScore)
 		{
 			var sqlCommand = $"update {nameof(Users)} set [{nameof(Users.Score)}] = @{nameof(Users.Score)} " +
@@ -30,7 +21,7 @@ namespace TomatoBot.Repository
 				});
 		}
 
-		public Users GetScoreForUser(string conversationId, string userInfo)
+		public Users GetUser(string conversationId, string userInfo)
 		{
 			var sqlCommand = $"{GetSelectUsersCommand()} {GetFilterByConversationIdCommand()} and ({GetFilterByUserInfo()})";
 
@@ -40,6 +31,12 @@ namespace TomatoBot.Repository
 				parametes => FillUserInformationParameters(parametes, conversationId, userInfo, userInfo, userInfo)).FirstOrDefault();
 		}
 
+		public Users GetUserById(int id) =>
+			ExecuteReader(
+				$"{GetSelectUsersCommand()} where {nameof(Users.Id)} = @{nameof(Users.Id)}",
+				MapReaderToUser,
+				parametes => FillIntParameter(parametes, nameof(Users.Id), id)).FirstOrDefault();
+
 		public Users[] GetScoresInConversation(string conversationId) => 
 			ExecuteReader(
 				$"{GetSelectUsersCommand()} {GetFilterByConversationIdCommand()}", 
@@ -48,7 +45,7 @@ namespace TomatoBot.Repository
 
 		public void UpdateUserData(string conversationId, string userId, string userName, string userNickname)
 		{
-			var sqlCommand = GetScoreForUser(conversationId, userId) == null ? GetInsertCommand() : GetUpdateCommand();
+			var sqlCommand = GetUser(conversationId, userId) == null ? GetInsertCommand() : GetUpdateCommand();
 			ExecuteNonQuery(sqlCommand, parameters => FillUserInformationParameters(parameters, conversationId, userId, userName, userNickname));
 		}
 
@@ -77,34 +74,6 @@ namespace TomatoBot.Repository
 				reader.GetString(reader.GetOrdinal(nameof(Users.UserId))),
 				reader.GetString(reader.GetOrdinal(nameof(Users.ConversationId))),
 				reader.GetInt32(reader.GetOrdinal(nameof(Users.Score))));
-		
-		private IEnumerable<Users> ExecuteReader(string queryString, Func<SqlDataReader, Users> map, Action<SqlParameterCollection> fillParameters)
-		{
-			using (var connection = new SqlConnection(_connectionString))
-			{
-				connection.Open();
-				var command = new SqlCommand(queryString, connection);
-				fillParameters(command.Parameters);
-				using (var reader = command.ExecuteReader())
-				{
-					while (reader.Read())
-					{
-						yield return map(reader);
-					}
-				}
-			}
-		}
-
-		private int ExecuteNonQuery(string queryString, Action<SqlParameterCollection> fillParameters)
-		{
-			using (var connection = new SqlConnection(_connectionString))
-			{
-				connection.Open();
-				var command = new SqlCommand(queryString, connection);
-				fillParameters(command.Parameters);
-				return command.ExecuteNonQuery();
-			}
-		}
 
 		private static string GetInsertCommand() =>
 			$"insert into {nameof(Users)} ({nameof(Users.Nickname)}, {nameof(Users.FirstName)}, {nameof(Users.UserId)}, {nameof(Users.ConversationId)}, {nameof(Users.Score)}) " +
@@ -126,19 +95,5 @@ namespace TomatoBot.Repository
 			FillStringParameter(parameterCollection, nameof(Users.FirstName), userName ?? "");
 			FillStringParameter(parameterCollection, nameof(Users.Nickname), userNickname ?? "");
 		}
-
-		private static void FillStringParameter(SqlParameterCollection parameterCollection, string parameterName, string parameterValue)
-		{
-			parameterCollection.Add($"@{parameterName}", SqlDbType.NVarChar);
-			parameterCollection[$"@{parameterName}"].Value = parameterValue;
-		}
-
-		private static void FillIntParameter(SqlParameterCollection parameterCollection, string parameterName, int parameterValue)
-		{
-			parameterCollection.Add($"@{parameterName}", SqlDbType.Int);
-			parameterCollection[$"@{parameterName}"].Value = parameterValue;
-		}
-
-		private readonly string _connectionString;
 	}
 }
