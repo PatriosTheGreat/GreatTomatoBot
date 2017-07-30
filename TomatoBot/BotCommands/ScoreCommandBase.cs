@@ -7,26 +7,26 @@ namespace TomatoBot.BotCommands
 {
     public abstract class ScoreCommandBase : IBotCommand
     {
-        protected ScoreCommandBase(ScoreRepository scoreRepository)
+        protected ScoreCommandBase(UsersRepository userRepository)
         {
-            ScoreRepository = scoreRepository;
+			UserRepository = userRepository;
         }
 
         public virtual bool CanExecute(Activity activity) => activity.IsMessageForBot();
 
         public abstract string ExecuteAndGetResponse(Activity activity);
 
-        protected ScoreRepository ScoreRepository { get; }
+        protected UsersRepository UserRepository { get; }
 
-        protected MemberScore GetScoreForUserOrNull(IMessageActivity activity)
+        protected Users GetScoreForUserOrNull(IMessageActivity activity)
         {
-            return ScoreRepository.GetScoreForUser(activity.Conversation.Id, GetUserNameFromMessageOrNull(activity));
+            return UserRepository.GetScoreForUser(activity.Conversation.Id, GetUserNameFromMessageOrNull(activity));
         }
 
         private string GetUserNameFromMessageOrNull(IMessageActivity activity)
         {
             return activity.Text.Split(' ').Select(word => word.Trim().Trim('@')).FirstOrDefault(
-                word => ScoreRepository.IsUserExists(activity.Conversation.Id, word));
+                word => UserRepository.IsUserExists(activity.Conversation.Id, word));
         }
     }
 }

@@ -40,7 +40,9 @@ namespace TomatoBot.BotCommands
             "Твои родители случаем не выписывали журнал \"Здоровье\"?",
             "Вот с такими как ты мне и приходится общаться =(",
             "На небе только и разговоров, что о море и о закате.",
-            "В очередь, сукины дети!"
+            "В очередь, сукины дети!",
+			"А часики-то тикают...",
+			"Чик-чирик"
         };
 
         private readonly Dictionary<string, int> _conversationToLastAnswer = new Dictionary<string, int>();

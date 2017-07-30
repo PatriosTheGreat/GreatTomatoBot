@@ -7,7 +7,7 @@ namespace TomatoBot.BotCommands
 {
     public class GetTotalConversationScoreCommand : ScoreCommandBase, ICommandWithHelpLine
     {
-        public GetTotalConversationScoreCommand(ScoreRepository repository) : base(repository)
+        public GetTotalConversationScoreCommand(UsersRepository userRepository) : base(userRepository)
         {
         }
 
@@ -24,7 +24,7 @@ namespace TomatoBot.BotCommands
 
         public override string ExecuteAndGetResponse(Activity activity)
         {
-            var scores = ScoreRepository.GetScoresInConversation(activity.Conversation.Id);
+            var scores = UserRepository.GetScoresInConversation(activity.Conversation.Id);
             var userScopes = string.Join(ActivityExtension.NewLine, scores.OrderByDescending(score => score.Score).Select(score => score.PersonalScore()));
             return $"{userScopes}{ActivityExtension.NewLine}Всего {scores.Sum(score => score.Score)}";
         }

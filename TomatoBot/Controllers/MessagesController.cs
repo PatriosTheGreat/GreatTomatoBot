@@ -15,18 +15,18 @@ namespace TomatoBot
         public MessagesController()
         {
             var getCurrencyCommand = new GetCurrencyCommand();
-            var getTotalScoreCommand = new GetTotalConversationScoreCommand(ScoreRepository);
-            var getScoreForUserCommand = new GetScoreForUserCommand(ScoreRepository);
-            var setScoreForUser = new SetScoreForUserCommand(ScoreRepository);
-            var incrementScoreForUser = new IncrementScoreForUserCommand(ScoreRepository);
-            var decrementScoreForUser = new DecrementScoreForUserCommand(ScoreRepository);
+            var getTotalScoreCommand = new GetTotalConversationScoreCommand(UserRepository);
+            var getScoreForUserCommand = new GetScoreForUserCommand(UserRepository);
+            var setScoreForUser = new SetScoreForUserCommand(UserRepository);
+            var incrementScoreForUser = new IncrementScoreForUserCommand(UserRepository);
+            var decrementScoreForUser = new DecrementScoreForUserCommand(UserRepository);
             var getNowPlayingMovies = new GetNowPlayingMovies(MovieRepository);
             var getUpcomingMovies = new GetUpcomingMovies(MovieRepository);
             var getMovieReleaseDate = new GetMovieReleaseDate(MovieRepository);
 
             _botCommands = new AllHandleCommandsAggregator(
                 new DuplicatedMemeCommand(MemesRepository),
-                new UpdateUserDataCommand(ScoreRepository),
+                new UpdateUserDataCommand(UserRepository),
                 new FirstHandleCommandAggregator(
                     getCurrencyCommand,
                     getScoreForUserCommand,
@@ -37,7 +37,7 @@ namespace TomatoBot
                     getNowPlayingMovies,
                     getUpcomingMovies,
                     getMovieReleaseDate,
-                    new DetermineWrongLayoutCommand(ScoreRepository),
+                    new DetermineWrongLayoutCommand(UserRepository),
                     new HelpComand(
                         getCurrencyCommand,
                         getScoreForUserCommand,
@@ -70,7 +70,7 @@ namespace TomatoBot
 
         private readonly IBotCommand _botCommands;
         private static readonly MemesRepository MemesRepository = new MemesRepository();
-        private static readonly ScoreRepository ScoreRepository = new ScoreRepository();
-        private static readonly MovieRepository MovieRepository = new MovieRepository();
+		private static readonly UsersRepository UserRepository = new UsersRepository();
+		private static readonly MovieRepository MovieRepository = new MovieRepository();
     }
 }

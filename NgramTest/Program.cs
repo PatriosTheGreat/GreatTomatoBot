@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
+using HtmlAgilityPack;
+using Newtonsoft.Json;
 using NTextCat;
 
 namespace NgramTest
@@ -14,7 +19,7 @@ namespace NgramTest
     {
         static void Main(string[] args)
         {
-            
+            /*
             var naiveBayesLanguageIdentifier = new NaiveBayesLanguageIdentifierFactory().Load(Assembly.GetExecutingAssembly().GetManifestResourceStream("NgramTest.Core14.profile.xml"));
 
 
@@ -28,7 +33,35 @@ namespace NgramTest
                 }
                 Console.WriteLine();
             }
+            *
+            */
+            /*
+            var currencyString = new WebClient().DownloadString("http://ruletaproom.ru/");
+            var html = new HtmlDocument();
+            html.LoadHtml(currencyString);
+            var firstOrDefault = html.DocumentNode
+                .Descendants("div")
+                .Where(d => d.Attributes.Contains("id") && d.Attributes["id"].Value.Contains("menu-3002"))
+                .ToArray();
             
+            File.WriteAllText("C:\\doc.html", html.DocumentNode.InnerHtml);
+
+            Console.WriteLine(firstOrDefault.Count());
+            
+            */
+            
+            string privateKey = "edd80b851ae8017d1b65785aec0aa499";
+            string basePath = "https://api.themoviedb.org/3/";
+            string url = $"{basePath}search/movie?api_key={privateKey}&language=ru-RU&query={HttpUtility.HtmlEncode("Пираты карибского моря")}";
+
+            MoovieCollection coll;
+            using (var client = new HttpClient())
+            {
+                var result = client.GetStringAsync(url).Result;
+                coll = JsonConvert.DeserializeObject<MoovieCollection>(result);
+            }
+            
+            Console.ReadLine();
             /*
             var text = File.ReadAllText(@"C:\LayoutProfile.txt");
 
@@ -36,6 +69,55 @@ namespace NgramTest
             {
                 return $"text=\"{string.Join("", match.Groups[1].ToString().Select(ch => Escape(SwitchLayout[ch].ToString())).ToArray())}\"";
             }));*/
+        }
+        public class Moovie
+        {
+            public bool Adult { get; set; }
+
+            public string Overview { get; set; }
+
+            [JsonProperty("release_date")]
+            public string ReleaseDate { get; set; }
+            
+            public int Id { get; set; }
+
+            [JsonProperty("original_title")]
+            public string OriginalTitle { get; set; }
+
+            [JsonProperty("original_language")]
+            public string OriginalLanguage { get; set; }
+
+            public string Title { get; set; }
+            
+            public double Popularity { get; set; }
+
+            [JsonProperty("vote_count")]
+            public int VoteCount { get; set; }
+            
+            [JsonProperty("vote_average")]
+            public double VoteAverage { get; set; }
+        }
+
+        public class Dates
+        {
+            public string Maximum { get; set; }
+
+            public string Minimum { get; set; }
+        }
+
+        public class MoovieCollection
+        {
+            public int Page { get; set; }
+
+            public List<Moovie> Results { get; set; }
+
+            public Dates Dates { get; set; }
+
+            [JsonProperty("total_pages")]
+            public int TotalPages { get; set; }
+
+            [JsonProperty("total_results")]
+            public int TotalResults { get; set; }
         }
 
         private static void Display(Tuple<LanguageInfo, double> dd)

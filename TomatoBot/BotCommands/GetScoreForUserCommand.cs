@@ -7,7 +7,7 @@ namespace TomatoBot.BotCommands
 {
     public sealed class GetScoreForUserCommand : ScoreCommandBase, ICommandWithHelpLine
     {
-        public GetScoreForUserCommand(ScoreRepository scoreRepository) : base(scoreRepository)
+        public GetScoreForUserCommand(UsersRepository userRepository) : base(userRepository)
         {
         }
 
@@ -28,7 +28,7 @@ namespace TomatoBot.BotCommands
 
             if (userScore != null)
             {
-                var totalScore = ScoreRepository.GetScoresInConversation(activity.Conversation.Id)
+                var totalScore = UserRepository.GetScoresInConversation(activity.Conversation.Id)
                     .Sum(score => score.Score);
 
                 return $"{userScore.PersonalScore()}, У всех остальных {totalScore - userScore.Score}";

@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TomatoBot", "TomatoBot\TomatoBot.csproj", "{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NgramTest", "NgramTest\NgramTest.csproj", "{7EEE0043-AEC7-4FAC-A7FC-AB118211D031}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataMigration", "DataMigration\DataMigration.csproj", "{E7AB1109-19B8-4880-ADBD-C8BCE33747CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7EEE0043-AEC7-4FAC-A7FC-AB118211D031}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EEE0043-AEC7-4FAC-A7FC-AB118211D031}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EEE0043-AEC7-4FAC-A7FC-AB118211D031}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7AB1109-19B8-4880-ADBD-C8BCE33747CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7AB1109-19B8-4880-ADBD-C8BCE33747CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7AB1109-19B8-4880-ADBD-C8BCE33747CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7AB1109-19B8-4880-ADBD-C8BCE33747CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

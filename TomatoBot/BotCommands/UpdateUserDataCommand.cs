@@ -5,9 +5,9 @@ namespace TomatoBot.BotCommands
 {
     public sealed class UpdateUserDataCommand : IBotCommand
     {
-        public UpdateUserDataCommand(ScoreRepository scoreRepository)
+        public UpdateUserDataCommand(UsersRepository usersRepository)
         {
-            _scoreRepository = scoreRepository;
+			_usersRepository = usersRepository;
         }
 
         public bool CanExecute(Activity activity) => true;
@@ -15,7 +15,7 @@ namespace TomatoBot.BotCommands
         public string ExecuteAndGetResponse(Activity activity)
         {
             var userChannelData = new ChannelUserData(activity.ChannelData?.ToString());
-            _scoreRepository.UpdateUserData(
+			_usersRepository.UpdateUserData(
                 activity.Conversation.Id, 
                 activity.From.Id,
                 userChannelData.UserFirstName, 
@@ -24,6 +24,6 @@ namespace TomatoBot.BotCommands
             return string.Empty;
         }
 
-        private readonly ScoreRepository _scoreRepository;
+        private readonly UsersRepository _usersRepository;
     }
 }

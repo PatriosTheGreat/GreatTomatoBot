@@ -10,9 +10,9 @@ namespace TomatoBot.BotCommands
 {
     public class DetermineWrongLayoutCommand : IBotCommand
     {
-        public DetermineWrongLayoutCommand(ScoreRepository repository)
+        public DetermineWrongLayoutCommand(UsersRepository usersRepository)
         {
-            _repository = repository;
+			_usersRepository = usersRepository;
             _naiveBayesLanguageIdentifier =
                 new NaiveBayesLanguageIdentifierFactory().Load(
                     GetType().Assembly.GetManifestResourceStream(NgramsEmbeddedFileName));
@@ -26,10 +26,10 @@ namespace TomatoBot.BotCommands
 
         public string ExecuteAndGetResponse(Activity activity)
         {
-            var userInfo = _repository.GetScoreForUser(activity.Conversation.Id, activity.From.Id);
+            var userInfo = _usersRepository.GetScoreForUser(activity.Conversation.Id, activity.From.Id);
             if (userInfo != null)
             {
-                _repository.SetScoreForUser(activity.Conversation.Id, userInfo.UserId, userInfo.Score + 1);
+				_usersRepository.SetScoreForUser(activity.Conversation.Id, userInfo.UserId, userInfo.Score + 1);
                 return $"{userInfo.PersonalScore()}{ActivityExtension.NewLine}Вы, возможно, имели ввиду:{ActivityExtension.NewLine}{GetOriginalText(activity.Text)}";
             }
 
@@ -67,7 +67,7 @@ namespace TomatoBot.BotCommands
         private static IEnumerable<string> GetWords(string message, Regex languageRegex)
             => from object word in languageRegex.Matches(message) select word.ToString();
 
-        private readonly ScoreRepository _repository;
+        private readonly UsersRepository _usersRepository;
         private readonly NaiveBayesLanguageIdentifier _naiveBayesLanguageIdentifier;
 
         private static readonly Regex EnglishWordRegex = new Regex("[a-zA-Z\\]\\];',\\.\\{\\}\\:<>`~\"]+",

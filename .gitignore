@@ -243,3 +243,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/DataMigration/App.config
+/TomatoBot/Web.config

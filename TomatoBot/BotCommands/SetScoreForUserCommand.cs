@@ -7,7 +7,7 @@ namespace TomatoBot.BotCommands
 {
     public sealed class SetScoreForUserCommand : ScoreCommandBase, ICommandWithHelpLine
     {
-        public SetScoreForUserCommand(ScoreRepository scoreRepository) : base(scoreRepository)
+        public SetScoreForUserCommand(UsersRepository userRepository) : base(userRepository)
         {
         }
 
@@ -28,7 +28,7 @@ namespace TomatoBot.BotCommands
 
             if (userScore != null)
             {
-                ScoreRepository.SetScoreForUser(activity.Conversation.Id, userScore.UserId, GetScoreToSet(activity.Text));
+				UserRepository.SetScoreForUser(activity.Conversation.Id, userScore.UserId, GetScoreToSet(activity.Text));
                 return userScore.PersonalScore();
             }
 

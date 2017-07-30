@@ -6,7 +6,7 @@ namespace TomatoBot.BotCommands
 {
     public sealed class IncrementScoreForUserCommand : ScoreCommandBase, ICommandWithHelpLine
     {
-        public IncrementScoreForUserCommand(ScoreRepository scoreRepository) : base(scoreRepository)
+        public IncrementScoreForUserCommand(UsersRepository userRepository) : base(userRepository)
         {
         }
 
@@ -27,7 +27,7 @@ namespace TomatoBot.BotCommands
 
             if (userScore != null)
             {
-                ScoreRepository.SetScoreForUser(activity.Conversation.Id, userScore.UserId, userScore.Score + 1);
+				UserRepository.SetScoreForUser(activity.Conversation.Id, userScore.UserId, userScore.Score + 1);
                 return userScore.PersonalScore();
             }
 
