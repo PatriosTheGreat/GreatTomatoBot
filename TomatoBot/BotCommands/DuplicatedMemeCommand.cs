@@ -28,11 +28,15 @@ namespace TomatoBot.BotCommands
                 if (boyan == null)
                 {
                     var userChannelData = new ChannelUserData(activity.ChannelData?.ToString());
-                    var userName =
-                        !string.IsNullOrEmpty(userChannelData.UserNickname)
-                            ? ("@" + userChannelData.UserNickname)
-                            : !string.IsNullOrEmpty(userChannelData.UserFirstName) ? userChannelData.UserFirstName : "понятия не имею кем";
+					var userName =
+						!string.IsNullOrEmpty(userChannelData.UserNickname)
+							? userChannelData.UserNickname
+							: userChannelData.UserFirstName;
 					var user = _userRepository.GetUser(activity.Conversation.Id, userName);
+					if(user == null)
+					{
+						continue;
+					}
 
 					_repository.AddMemes(
                         new Memeses(
