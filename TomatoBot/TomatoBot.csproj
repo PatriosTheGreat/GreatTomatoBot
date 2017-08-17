@@ -152,6 +152,7 @@
     <Compile Include="BotCommands\ActivityExtension.cs" />
     <Compile Include="BotCommands\AllHandleCommandsAggregator.cs" />
     <Compile Include="BotCommands\ChannelUserData.cs" />
+    <Compile Include="BotCommands\CollectTelemetry.cs" />
     <Compile Include="BotCommands\DetermineWrongLayoutCommand.cs" />
     <Compile Include="BotCommands\DuplicatedMemeCommand.cs" />
     <Compile Include="BotCommands\Emojis.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Model\Memeses.cs" />
     <Compile Include="Model\MemesInHistory.cs" />
     <Compile Include="Model\MemberScore.cs" />
+    <Compile Include="Model\Messages.cs" />
     <Compile Include="Model\Movies\Dates.cs" />
     <Compile Include="Model\Movies\Movie.cs" />
     <Compile Include="Model\Movies\MovieCollection.cs" />
@@ -187,6 +189,7 @@
     <Compile Include="Repository\DbRepository.cs" />
     <Compile Include="Repository\MemesesRepository.cs" />
     <Compile Include="Repository\MemesRepository.cs" />
+    <Compile Include="Repository\MessagesRepository.cs" />
     <Compile Include="Repository\MovieRepository.cs" />
     <Compile Include="Repository\ScoreRepository.cs" />
     <Compile Include="Repository\UsersRepository.cs" />

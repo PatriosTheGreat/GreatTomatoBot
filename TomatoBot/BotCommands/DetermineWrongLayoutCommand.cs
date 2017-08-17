@@ -29,7 +29,8 @@ namespace TomatoBot.BotCommands
             var userInfo = _usersRepository.GetUser(activity.Conversation.Id, activity.From.Id);
             if (userInfo != null)
             {
-				_usersRepository.SetScoreForUser(activity.Conversation.Id, userInfo.UserId, userInfo.Score + 1);
+				userInfo.Score++;
+				_usersRepository.SetScoreForUser(activity.Conversation.Id, userInfo.UserId, userInfo.Score);
                 return $"{userInfo.PersonalScore()}{ActivityExtension.NewLine}Вы, возможно, имели ввиду:{ActivityExtension.NewLine}{GetOriginalText(activity.Text)}";
             }
 

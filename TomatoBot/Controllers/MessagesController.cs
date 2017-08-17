@@ -27,7 +27,8 @@ namespace TomatoBot
             _botCommands = new AllHandleCommandsAggregator(
                 new DuplicatedMemeCommand(MemesRepository, UserRepository),
                 new UpdateUserDataCommand(UserRepository),
-                new FirstHandleCommandAggregator(
+				new CollectTelemetry(MessagesRepository),
+				new FirstHandleCommandAggregator(
                     getCurrencyCommand,
                     getScoreForUserCommand,
                     getTotalScoreCommand,
@@ -72,5 +73,6 @@ namespace TomatoBot
         private static readonly MemesesRepository MemesRepository = new MemesesRepository();
 		private static readonly UsersRepository UserRepository = new UsersRepository();
 		private static readonly MovieRepository MovieRepository = new MovieRepository();
-    }
+		private static readonly MessagesRepository MessagesRepository = new MessagesRepository();
+	}
 }

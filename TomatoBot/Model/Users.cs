@@ -28,7 +28,7 @@
 
 		public string ConversationId { get; }
 
-		public int Score { get; }
+		public int Score { get; set; }
 
 		public string Identity => string.IsNullOrEmpty(Nickname) ? FirstName : Nickname;
 
