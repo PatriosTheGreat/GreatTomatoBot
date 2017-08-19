@@ -25,14 +25,9 @@ namespace TomatoBot.BotCommands
 
         public string ExecuteAndGetResponse(MessageActivity activity)
         {
-            if (activity.FromUser != null)
-            {
-				activity.FromUser.Score++;
-				_usersRepository.SetScoreForUser(activity.ConversationId, activity.FromUser.UserId, activity.FromUser.Score);
-                return $"{activity.FromUser.PersonalScore()}{ActivityExtension.NewLine}Вы, возможно, имели ввиду:{ActivityExtension.NewLine}{GetOriginalText(string.Join(" ", activity.Words))}";
-            }
-
-            return string.Empty;
+			activity.FromUser.Score++;
+			_usersRepository.SetScoreForUser(activity.ConversationId, activity.FromUser.UserId, activity.FromUser.Score);
+            return $"{activity.FromUser.PersonalScore()}{ActivityExtension.NewLine}Вы, возможно, имели ввиду:{ActivityExtension.NewLine}{GetOriginalText(string.Join(" ", activity.Words))}";
         }
 
         private static string GetOriginalText(string wrongLayoutText) =>

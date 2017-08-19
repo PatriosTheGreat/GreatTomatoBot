@@ -27,7 +27,6 @@ namespace TomatoBot
 
             _botCommands = new AllHandleCommandsAggregator(
                 new DuplicatedMemeCommand(MemesRepository, UserRepository),
-                new UpdateUserDataCommand(UserRepository),
 				new CollectTelemetry(MessagesRepository),
 				new FirstHandleCommandAggregator(
                     getCurrencyCommand,

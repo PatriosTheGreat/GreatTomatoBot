@@ -170,7 +170,6 @@
     <Compile Include="BotCommands\ScoreCommandBase.cs" />
     <Compile Include="BotCommands\RudeAnswerCommand.cs" />
     <Compile Include="BotCommands\SetScoreForUserCommand.cs" />
-    <Compile Include="BotCommands\UpdateUserDataCommand.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

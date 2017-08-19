@@ -7,35 +7,27 @@ namespace TomatoBot.Model
 		public MessageActivity(
 			string[] links, 
 			string message,
-			ChannelUserData channelData,
 			Users fromUser, 
 			Users replyTo, 
 			int attachmentsCount, 
 			string[] smiles, 
-			string[] words, 
-			string fromUserId, 
+			string[] words,
 			string conversationId)
 		{
 			Links = links;
 			Message = message ?? string.Empty;
-			ChannelData = channelData;
 			FromUser = fromUser;
 			ReplyTo = replyTo;
 			AttachmentsCount = attachmentsCount;
 			Smiles = smiles;
 			Words = words;
-			FromUserId = fromUserId;
 			ConversationId = conversationId;
 		}
 
 		public string[] Links { get; }
 
 		public string Message { get; }
-
-		public ChannelUserData ChannelData { get; }
-
-		public string FromUserId { get; }
-
+		
 		public string ConversationId { get; }
 
 		public Users FromUser { get; }

@@ -26,11 +26,6 @@ namespace TomatoBot.BotCommands
 
                 if (boyan == null)
                 {
-					if(activity.FromUser == null)
-					{
-						continue;
-					}
-
 					_repository.AddMemes(
                         new Memeses(
 							0,

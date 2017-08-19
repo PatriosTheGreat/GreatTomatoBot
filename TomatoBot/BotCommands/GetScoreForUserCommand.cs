@@ -24,15 +24,10 @@ namespace TomatoBot.BotCommands
 
         public override string ExecuteAndGetResponse(MessageActivity activity)
         {
-            if (activity.FromUser != null)
-            {
-                var totalScore = UserRepository.GetScoresInConversation(activity.ConversationId)
-                    .Sum(score => score.Score);
+            var totalScore = UserRepository.GetScoresInConversation(activity.ConversationId)
+                .Sum(score => score.Score);
 
-                return $"{activity.FromUser.PersonalScore()}, У всех остальных {totalScore - activity.FromUser.Score}";
-            }
-
-            return string.Empty;
+            return $"{activity.FromUser.PersonalScore()}, У всех остальных {totalScore - activity.FromUser.Score}";
         }
         
         private static readonly Regex CommandUserRegex =

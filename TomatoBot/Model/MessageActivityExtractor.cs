@@ -40,16 +40,21 @@ namespace TomatoBot.Model
 			}
 
 			var userChannelData = new ChannelUserData(activity.ChannelData?.ToString());
+
+			_usersRepository.UpdateUserData(
+				activity.Conversation.Id,
+				activity.From.Id,
+				userChannelData.UserFirstName,
+				userChannelData.UserNickname);
+			
 			return new MessageActivity(
 				urls.ToArray(),
 				activity.Text,
-				userChannelData,
 				_usersRepository.GetUser(activity.Conversation.Id, activity.From.Id),
 				string.IsNullOrEmpty(userChannelData.ReplyToId) ? null : _usersRepository.GetUser(activity.Conversation.Id, userChannelData.ReplyToId),
 				activity.Attachments.Count,
 				smiles.ToArray(),
 				words.ToArray(),
-				activity.From.Id,
 				activity.Conversation.Id);
 		}
 
