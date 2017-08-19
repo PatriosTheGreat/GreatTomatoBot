@@ -28,7 +28,8 @@ namespace TomatoBot.BotCommands
 
             if (userScore != null)
             {
-				UserRepository.SetScoreForUser(activity.ConversationId, userScore.UserId, GetScoreToSet(activity.Message));
+	            userScore.Score = GetScoreToSet(activity.Message);
+				UserRepository.SetScoreForUser(activity.ConversationId, userScore.UserId, userScore.Score);
                 return userScore.PersonalScore();
             }
 
