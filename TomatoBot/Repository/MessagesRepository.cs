@@ -1,4 +1,6 @@
-﻿using TomatoBot.Model;
+﻿using System.Data.SqlClient;
+using System.Linq;
+using TomatoBot.Model;
 
 namespace TomatoBot.Repository
 {
@@ -41,5 +43,44 @@ namespace TomatoBot.Repository
 					FillIntParameter(collection, nameof(Messages.ReplyToId), message.ReplyToId);
 				});
 		}
+
+		public MessageStatistics[] GetTotalStatistics(string conversationId)
+		{
+			var query = $@"
+					Select 
+						Count(*) as {nameof(MessageStatistics.MessagesCount)},
+						Sum({nameof(MessageStatistics.WordsCount)}) as {nameof(MessageStatistics.WordsCount)}, 
+						Sum({nameof(MessageStatistics.SmilesCount)}) as {nameof(MessageStatistics.SmilesCount)}, 
+						Sum({nameof(MessageStatistics.AttachmentsCount)}) + Sum(LinksCount) as {nameof(MessageStatistics.AttachmentsCount)},
+						Sum(MessageLength) / NULLIF(CAST(Sum({nameof(MessageStatistics.WordsCount)}) as FLOAT), 0) as {nameof(MessageStatistics.AverageWordsLength)},
+						[{nameof(Users)}].{nameof(MessageStatistics.FirstName)}, 
+						[{nameof(Users)}].{nameof(MessageStatistics.Nickname)} from {nameof(Messages)}
+					join {nameof(Users)}
+					on [{nameof(Users)}].{nameof(Users.UserId)} = {nameof(Messages)}.{nameof(Users.UserId)} 
+						and [{nameof(Users)}].{nameof(Users.ConversationId)} = {nameof(Messages)}.{nameof(Messages.ConversationId)}
+					where [{nameof(Messages)}].{nameof(Messages.ConversationId)} = @{nameof(Messages.ConversationId)}
+						group by 
+							[{nameof(Users)}].{nameof(Users.Id)}, 
+							[{nameof(Messages)}].{nameof(Messages.ConversationId)}, 
+							[{nameof(Users)}].{nameof(Users.UserId)}, 
+							[{nameof(Users)}].{nameof(Users.FirstName)}, 
+							[{nameof(Users)}].{nameof(Users.Nickname)}
+					order by {nameof(MessageStatistics.MessagesCount)} desc";
+			
+			return ExecuteReader(
+				query,
+				MapReaderToStatistics,
+				parametes => FillStringParameter(parametes, nameof(Messages.ConversationId), conversationId)).ToArray();
+		}
+
+		private static MessageStatistics MapReaderToStatistics(SqlDataReader reader) => 
+			new MessageStatistics(
+				reader.GetInt32(reader.GetOrdinal(nameof(MessageStatistics.MessagesCount))),
+				reader.GetInt32(reader.GetOrdinal(nameof(MessageStatistics.WordsCount))),
+				reader.GetInt32(reader.GetOrdinal(nameof(MessageStatistics.SmilesCount))),
+				reader.GetInt32(reader.GetOrdinal(nameof(MessageStatistics.AttachmentsCount))),
+				reader.IsDBNull(reader.GetOrdinal(nameof(MessageStatistics.AverageWordsLength))) ? null : (double?)reader.GetDouble(reader.GetOrdinal(nameof(MessageStatistics.AverageWordsLength))),
+				reader.GetString(reader.GetOrdinal(nameof(MessageStatistics.FirstName))),
+				reader.GetString(reader.GetOrdinal(nameof(MessageStatistics.Nickname))));
 	}
 }

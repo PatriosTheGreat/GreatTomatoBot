@@ -162,6 +162,7 @@
     <Compile Include="BotCommands\GetCurrencyCommand.cs" />
     <Compile Include="BotCommands\GetScoreForUserCommand.cs" />
     <Compile Include="BotCommands\GetTotalConversationScoreCommand.cs" />
+    <Compile Include="BotCommands\GetTotalStatistics.cs" />
     <Compile Include="BotCommands\GetUpcomingMovies.cs" />
     <Compile Include="BotCommands\HelpComand.cs" />
     <Compile Include="BotCommands\ICommandWithHelpLine.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="Model\MessageActivity.cs" />
     <Compile Include="Model\MessageActivityExtractor.cs" />
     <Compile Include="Model\Messages.cs" />
+    <Compile Include="Model\MessageStatistics.cs" />
     <Compile Include="Model\Movies\Dates.cs" />
     <Compile Include="Model\Movies\Movie.cs" />
     <Compile Include="Model\Movies\MovieCollection.cs" />

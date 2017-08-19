@@ -23,9 +23,10 @@ namespace TomatoBot
             var decrementScoreForUser = new DecrementScoreForUserCommand(UserRepository);
             var getNowPlayingMovies = new GetNowPlayingMovies(MovieRepository);
             var getUpcomingMovies = new GetUpcomingMovies(MovieRepository);
-            var getMovieReleaseDate = new GetMovieReleaseDate(MovieRepository);
+	        var getMovieReleaseDate = new GetMovieReleaseDate(MovieRepository);
+			var getTotalStatistics = new GetTotalStatistics(MessagesRepository);
 
-            _botCommands = new AllHandleCommandsAggregator(
+			_botCommands = new AllHandleCommandsAggregator(
                 new DuplicatedMemeCommand(MemesRepository, UserRepository),
 				new CollectTelemetry(MessagesRepository),
 				new FirstHandleCommandAggregator(
@@ -38,7 +39,8 @@ namespace TomatoBot
                     getNowPlayingMovies,
                     getUpcomingMovies,
                     getMovieReleaseDate,
-                    new DetermineWrongLayoutCommand(UserRepository),
+					getTotalStatistics,
+					new DetermineWrongLayoutCommand(UserRepository),
                     new HelpComand(
                         getCurrencyCommand,
                         getScoreForUserCommand,
