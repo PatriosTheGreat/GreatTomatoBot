@@ -47,10 +47,10 @@ namespace TomatoBot.Repository
 			parameterCollection[$"@{parameterName}"].Value = parameterValue;
 		}
 
-		protected static void FillIntParameter(SqlParameterCollection parameterCollection, string parameterName, int parameterValue)
+		protected static void FillIntParameter(SqlParameterCollection parameterCollection, string parameterName, int? parameterValue)
 		{
 			parameterCollection.Add($"@{parameterName}", SqlDbType.Int);
-			parameterCollection[$"@{parameterName}"].Value = parameterValue;
+			parameterCollection[$"@{parameterName}"].Value = (object)parameterValue ?? DBNull.Value;
 		}
 
 		protected static void FillDateTimeParameter(SqlParameterCollection parameterCollection, string parameterName, DateTime parameterValue)

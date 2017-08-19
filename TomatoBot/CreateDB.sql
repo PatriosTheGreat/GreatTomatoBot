@@ -18,5 +18,11 @@ create table Memeses (
 create table Messages (
 	ConversationId varchar(255) NOT NULL,
 	UserId varchar(255) NOT NULL,
-	WordsCount int NOT NULL
+	WordsCount int NOT NULL,
+	Time DateTime NOT NULL,
+	SmilesCount int NOT NULL,
+	AttachmentsCount int NOT NULL,
+	LinksCount int NOT NULL,
+	MessageLength int NOT NULL,
+	ReplyToId int NULL
 );
