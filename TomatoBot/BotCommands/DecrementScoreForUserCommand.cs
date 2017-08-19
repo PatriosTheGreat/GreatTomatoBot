@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using Microsoft.Bot.Connector;
+using TomatoBot.Model;
 using TomatoBot.Repository;
 
 namespace TomatoBot.BotCommands
@@ -16,18 +16,18 @@ namespace TomatoBot.BotCommands
 
         public string Sample => "@GreatTomatoBot @UserName -";
 
-        public override bool CanExecute(Activity activity)
+        public override bool CanExecute(MessageActivity activity)
         {
-            return base.CanExecute(activity) && ValidateIncrementUserCommandRegex.IsMatch(activity.Text);
+            return base.CanExecute(activity) && ValidateIncrementUserCommandRegex.IsMatch(activity.Message);
         }
 
-        public override string ExecuteAndGetResponse(Activity activity)
+        public override string ExecuteAndGetResponse(MessageActivity activity)
         {
             var userScore = GetScoreForUserOrNull(activity);
 
             if (userScore != null)
             {
-				UserRepository.SetScoreForUser(activity.Conversation.Id, userScore.UserId, userScore.Score - 1);
+				UserRepository.SetScoreForUser(activity.FromUser.ConversationId, userScore.UserId, userScore.Score - 1);
                 return userScore.PersonalScore();
             }
 

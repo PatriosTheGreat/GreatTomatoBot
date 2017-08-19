@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
-using Microsoft.Bot.Connector;
 using TomatoBot.Model;
 using TomatoBot.Repository;
 
@@ -15,25 +14,19 @@ namespace TomatoBot.BotCommands
 			_userRepository = usersRepository;
         }
 
-        public bool CanExecute(Activity activity) => true;
+        public bool CanExecute(MessageActivity activity) => true;
 
-        public string ExecuteAndGetResponse(Activity activity)
+        public string ExecuteAndGetResponse(MessageActivity activity)
         {
             var responce = string.Empty;
-            foreach (var url in ActivityExtension.GetUrlsInMessage(activity.Text))
+            foreach (var url in activity.Links)
             {
                 var urlId = GetSha256(new Uri(url).ToString());
-                var boyan = _repository.GetMemesOrDefault(activity.Conversation.Id, urlId);
+                var boyan = _repository.GetMemesOrDefault(activity.FromUser.ConversationId, urlId);
 
                 if (boyan == null)
                 {
-                    var userChannelData = new ChannelUserData(activity.ChannelData?.ToString());
-					var userName =
-						!string.IsNullOrEmpty(userChannelData.UserNickname)
-							? userChannelData.UserNickname
-							: userChannelData.UserFirstName;
-					var user = _userRepository.GetUser(activity.Conversation.Id, userName);
-					if(user == null)
+					if(activity.FromUser == null)
 					{
 						continue;
 					}
@@ -42,15 +35,18 @@ namespace TomatoBot.BotCommands
                         new Memeses(
 							0,
 							DateTime.UtcNow,
-							user.Id,
+							activity.FromUser.Id,
 							urlId,
-							activity.Conversation.Id));
+							activity.FromUser.ConversationId));
                 }
                 else
 				{
 					var user = _userRepository.GetUserById(boyan.UserId);
-					responce += $"Боян этом мемес {url} уже был скинут {user.Identity} примерно в {boyan.SendTime:o} utc!!! ";
-                }
+					if (user != null)
+					{
+						responce += $"Боян этом мемес {url} уже был скинут {user.Identity} примерно в {boyan.SendTime:o} utc!!! ";
+					}
+				}
             }
 
             return responce;

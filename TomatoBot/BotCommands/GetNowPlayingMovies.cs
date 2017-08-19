@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Microsoft.Bot.Connector;
+using TomatoBot.Model;
 using TomatoBot.Repository;
 
 namespace TomatoBot.BotCommands
@@ -17,9 +17,9 @@ namespace TomatoBot.BotCommands
 
         public string Sample => "/moviesplaying";
 
-        public bool CanExecute(Activity activity) => activity.Text.StartsWith("/moviesplaying");
+        public bool CanExecute(MessageActivity activity) => activity.Message.StartsWith("/moviesplaying");
 
-        public string ExecuteAndGetResponse(Activity activity) =>
+        public string ExecuteAndGetResponse(MessageActivity activity) =>
             string.Join(
                 ActivityExtension.NewLine,
                 _movieRepository.GetNowPlaying().Results.Select(movie => $"\"{movie.Title}\" Рейтинг: {movie.VoteAverage} {Emojis.GetFlag(movie.OriginalLanguage)}"));

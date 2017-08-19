@@ -12,21 +12,21 @@ namespace TomatoBot.BotCommands
 			UserRepository = userRepository;
         }
 
-        public virtual bool CanExecute(Activity activity) => activity.IsMessageForBot();
+        public virtual bool CanExecute(MessageActivity activity) => activity.IsMessageForBot();
 
-        public abstract string ExecuteAndGetResponse(Activity activity);
+        public abstract string ExecuteAndGetResponse(MessageActivity activity);
 
         protected UsersRepository UserRepository { get; }
 
-        protected Users GetScoreForUserOrNull(IMessageActivity activity)
+        protected Users GetScoreForUserOrNull(MessageActivity activity)
         {
-            return UserRepository.GetUser(activity.Conversation.Id, GetUserNameFromMessageOrNull(activity));
+            return UserRepository.GetUser(activity.FromUser.ConversationId, GetUserNameFromMessageOrNull(activity));
         }
 
-        private string GetUserNameFromMessageOrNull(IMessageActivity activity)
+        private string GetUserNameFromMessageOrNull(MessageActivity activity)
         {
-            return activity.Text.Split(' ').Select(word => word.Trim().Trim('@')).FirstOrDefault(
-                word => UserRepository.IsUserExists(activity.Conversation.Id, word));
+            return activity.Message.Split(' ').Select(word => word.Trim().Trim('@')).FirstOrDefault(
+                word => UserRepository.IsUserExists(activity.FromUser.ConversationId, word));
         }
     }
 }

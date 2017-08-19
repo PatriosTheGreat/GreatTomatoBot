@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Bot.Connector;
+using TomatoBot.Model;
 
 namespace TomatoBot.BotCommands
 {
@@ -11,10 +11,10 @@ namespace TomatoBot.BotCommands
             _botCommands = botCommands;
         }
 
-        public bool CanExecute(Activity activity) =>
+        public bool CanExecute(MessageActivity activity) =>
             _botCommands.Any(bot => bot.CanExecute(activity));
 
-        public string ExecuteAndGetResponse(Activity activity) =>
+        public string ExecuteAndGetResponse(MessageActivity activity) =>
             _botCommands.FirstOrDefault(bot => bot.CanExecute(activity))?.ExecuteAndGetResponse(activity) ??
             string.Empty;
 

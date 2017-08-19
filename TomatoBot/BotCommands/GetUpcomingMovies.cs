@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Microsoft.Bot.Connector;
+using TomatoBot.Model;
 using TomatoBot.Repository;
 
 namespace TomatoBot.BotCommands
@@ -17,9 +17,9 @@ namespace TomatoBot.BotCommands
 
         public string Sample => "/moviesupcoming";
 
-        public bool CanExecute(Activity activity) => activity.Text.StartsWith("/moviesupcoming");
+        public bool CanExecute(MessageActivity activity) => activity.Message.StartsWith("/moviesupcoming");
 
-        public string ExecuteAndGetResponse(Activity activity) => 
+        public string ExecuteAndGetResponse(MessageActivity activity) => 
             string.Join(
                 ActivityExtension.NewLine,
                 _movieRepository.GetUpcomingPlaying().Results.Select(moovie => $"\"{moovie.Title}\" Дата выхода: {moovie.ReleaseDate} {Emojis.GetFlag(moovie.OriginalLanguage)}"));

@@ -1,4 +1,4 @@
-﻿using Microsoft.Bot.Connector;
+﻿using TomatoBot.Model;
 using TomatoBot.Repository;
 
 namespace TomatoBot.BotCommands
@@ -10,16 +10,15 @@ namespace TomatoBot.BotCommands
 			_usersRepository = usersRepository;
         }
 
-        public bool CanExecute(Activity activity) => true;
+        public bool CanExecute(MessageActivity activity) => true;
 
-        public string ExecuteAndGetResponse(Activity activity)
+        public string ExecuteAndGetResponse(MessageActivity activity)
         {
-            var userChannelData = new ChannelUserData(activity.ChannelData?.ToString());
 			_usersRepository.UpdateUserData(
-                activity.Conversation.Id, 
-                activity.From.Id,
-                userChannelData.UserFirstName, 
-                userChannelData.UserNickname);
+                activity.FromUser.ConversationId, 
+                activity.FromUser.UserId,
+                activity.ChannelData.UserFirstName, 
+                activity.ChannelData.UserNickname);
 
             return string.Empty;
         }

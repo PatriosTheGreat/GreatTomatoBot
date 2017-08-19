@@ -1,5 +1,4 @@
-﻿using Microsoft.Bot.Connector;
-using TomatoBot.Repository;
+﻿using TomatoBot.Repository;
 using System;
 using TomatoBot.Model;
 
@@ -12,33 +11,12 @@ namespace TomatoBot.BotCommands
 			_messagesRepository = messagesRepository;
 		}
 
-		public bool CanExecute(Activity activity) => true;
+		public bool CanExecute(MessageActivity activity) => true;
 
-		public string ExecuteAndGetResponse(Activity activity)
+		public string ExecuteAndGetResponse(MessageActivity activity)
 		{
-			_messagesRepository.AddMessage(new Messages(activity.Conversation.Id, activity.From.Id, CountWords(activity.Text), DateTime.UtcNow));
+			_messagesRepository.AddMessage(new Messages(activity.FromUser.ConversationId, activity.FromUser.UserId, activity.Words.Length, DateTime.UtcNow));
 			return string.Empty;
-		}
-
-		private int CountWords(string text)
-		{
-			text = text.Trim();
-			int wordCount = 0, index = 0;
-
-			while (index < text.Length)
-			{
-				// check if current char is part of a word
-				while (index < text.Length && !char.IsWhiteSpace(text[index]))
-					index++;
-
-				wordCount++;
-
-				// skip whitespace until next word
-				while (index < text.Length && char.IsWhiteSpace(text[index]))
-					index++;
-			}
-
-			return wordCount;
 		}
 
 		private readonly MessagesRepository _messagesRepository;

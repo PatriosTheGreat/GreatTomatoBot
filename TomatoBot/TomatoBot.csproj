@@ -179,6 +179,8 @@
     <Compile Include="Model\Memeses.cs" />
     <Compile Include="Model\MemesInHistory.cs" />
     <Compile Include="Model\MemberScore.cs" />
+    <Compile Include="Model\MessageActivity.cs" />
+    <Compile Include="Model\MessageActivityExtractor.cs" />
     <Compile Include="Model\Messages.cs" />
     <Compile Include="Model\Movies\Dates.cs" />
     <Compile Include="Model\Movies\Movie.cs" />

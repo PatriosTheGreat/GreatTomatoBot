@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using Microsoft.Bot.Connector;
+using TomatoBot.Model;
 
 namespace TomatoBot.BotCommands
 {
     public sealed class GetCurrencyCommand : IBotCommand, ICommandWithHelpLine
     {
-        public bool CanExecute(Activity activity)
+        public bool CanExecute(MessageActivity activity)
         {
-            return activity.IsMessageForBot() && GetOperationType(activity.Text) != CurrencyOperationType.None;
+            return activity.IsMessageForBot() && GetOperationType(activity.Message) != CurrencyOperationType.None;
         }
 
         public string CommandName => "getCurrency";
@@ -19,9 +19,9 @@ namespace TomatoBot.BotCommands
 
         public string Sample => "/eurrub";
 
-        public string ExecuteAndGetResponse(Activity activity)
+        public string ExecuteAndGetResponse(MessageActivity activity)
         {
-            var type = GetOperationType(activity.Text);
+            var type = GetOperationType(activity.Message);
             if (type == CurrencyOperationType.RubToEny)
             {
                 return

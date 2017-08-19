@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
-using Microsoft.Bot.Connector;
+using TomatoBot.Model;
 using TomatoBot.Repository;
 
 namespace TomatoBot.BotCommands
@@ -17,18 +17,18 @@ namespace TomatoBot.BotCommands
 
         public string Sample => "/set score @UserName 0";
 
-        public override bool CanExecute(Activity activity)
+        public override bool CanExecute(MessageActivity activity)
         {
-            return base.CanExecute(activity) && SetScoreUserRegex.IsMatch(activity.Text) && GetScoreToSet(activity.Text) != -1;
+            return base.CanExecute(activity) && SetScoreUserRegex.IsMatch(activity.Message) && GetScoreToSet(activity.Message) != -1;
         }
 
-        public override string ExecuteAndGetResponse(Activity activity)
+        public override string ExecuteAndGetResponse(MessageActivity activity)
         {
             var userScore = GetScoreForUserOrNull(activity);
 
             if (userScore != null)
             {
-				UserRepository.SetScoreForUser(activity.Conversation.Id, userScore.UserId, GetScoreToSet(activity.Text));
+				UserRepository.SetScoreForUser(activity.FromUser.ConversationId, userScore.UserId, GetScoreToSet(activity.Message));
                 return userScore.PersonalScore();
             }
 

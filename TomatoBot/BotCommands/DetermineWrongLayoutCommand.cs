@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Microsoft.Bot.Connector;
 using NTextCat;
+using TomatoBot.Model;
 using TomatoBot.Repository;
 
 namespace TomatoBot.BotCommands
@@ -18,20 +18,18 @@ namespace TomatoBot.BotCommands
                     GetType().Assembly.GetManifestResourceStream(NgramsEmbeddedFileName));
         }
 
-        public bool CanExecute(Activity activity)
+        public bool CanExecute(MessageActivity activity)
         {
-            var filteredText = FilterText(activity.Text);
-            return !activity.IsMessageForBot() && IsEnglishIncorrect(filteredText);
+            return !activity.IsMessageForBot() && IsEnglishIncorrect(string.Join(" ", activity.Words));
         }
 
-        public string ExecuteAndGetResponse(Activity activity)
+        public string ExecuteAndGetResponse(MessageActivity activity)
         {
-            var userInfo = _usersRepository.GetUser(activity.Conversation.Id, activity.From.Id);
-            if (userInfo != null)
+            if (activity.FromUser != null)
             {
-				userInfo.Score++;
-				_usersRepository.SetScoreForUser(activity.Conversation.Id, userInfo.UserId, userInfo.Score);
-                return $"{userInfo.PersonalScore()}{ActivityExtension.NewLine}Вы, возможно, имели ввиду:{ActivityExtension.NewLine}{GetOriginalText(activity.Text)}";
+				activity.FromUser.Score++;
+				_usersRepository.SetScoreForUser(activity.FromUser.ConversationId, activity.FromUser.UserId, activity.FromUser.Score);
+                return $"{activity.FromUser.PersonalScore()}{ActivityExtension.NewLine}Вы, возможно, имели ввиду:{ActivityExtension.NewLine}{GetOriginalText(string.Join(" ", activity.Words))}";
             }
 
             return string.Empty;
@@ -40,17 +38,6 @@ namespace TomatoBot.BotCommands
         private static string GetOriginalText(string wrongLayoutText) =>
             new string(wrongLayoutText.Select(ch => SwitchLayout.ContainsKey(ch) ? SwitchLayout[ch] : ch).ToArray());
         
-        private static string FilterText(string activityText)
-        {
-            var filteredWords =
-                activityText.Split()
-                    .Select(word => word.Trim())
-                    .Where(word => !ActivityExtension.IsUrl(word) && !IsSmile(word));
-            return string.Join(" ", filteredWords);
-        }
-
-        private static bool IsSmile(string word) => word.Length == 2 && SmileFirstSymbols.Contains(word.First());
-
         private bool IsEnglishIncorrect(string message)
         {
             if (GetWords(message, RussianWordRegex).Any())

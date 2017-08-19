@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.Bot.Connector;
+using TomatoBot.Model;
 using TomatoBot.Repository;
 
 namespace TomatoBot.BotCommands
@@ -18,9 +18,9 @@ namespace TomatoBot.BotCommands
 
         public string Sample => $"@{ActivityExtension.BotName} {ReleaseDate} название фильма";
         
-        public bool CanExecute(Activity activity) => activity.IsMessageForBot() && activity.Text.Contains(ReleaseDate);
+        public bool CanExecute(MessageActivity activity) => activity.IsMessageForBot() && activity.Message.Contains(ReleaseDate);
         
-        public string ExecuteAndGetResponse(Activity activity)
+        public string ExecuteAndGetResponse(MessageActivity activity)
         {
             var query = GetMovieName(activity);
             if (string.IsNullOrWhiteSpace(query))
@@ -39,15 +39,15 @@ namespace TomatoBot.BotCommands
                 movies.Results.Take(MaxMoviesCount).OrderByDescending(movie => movie.ReleaseDate).Select(movie => $"{movie.Title} {movie.ReleaseDate}"));
         }
         
-        private static string GetMovieName(IMessageActivity activity)
+        private static string GetMovieName(MessageActivity activity)
         {
-            var index = activity.Text.IndexOf(ReleaseDate, StringComparison.Ordinal);
+            var index = activity.Message.IndexOf(ReleaseDate, StringComparison.Ordinal);
             if (index == -1)
             {
                 return string.Empty;
             }
 
-            return activity.Text.Substring(index + ReleaseDate.Length).Trim();
+            return activity.Message.Substring(index + ReleaseDate.Length).Trim();
         }
 
         private const int MaxMoviesCount = 5;

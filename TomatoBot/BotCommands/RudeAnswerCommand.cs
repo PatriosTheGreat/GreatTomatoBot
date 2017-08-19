@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Bot.Connector;
+using TomatoBot.Model;
 
 namespace TomatoBot.BotCommands
 {
     public sealed class RudeAnswerCommand : IBotCommand
     {
-        public string ExecuteAndGetResponse(Activity activity)
+        public string ExecuteAndGetResponse(MessageActivity activity)
         {
-            var index = (GetLastAnswer(activity.Conversation.Id) + _random.Next(0, Answers.Length - 1) + 1) % Answers.Length;
+            var index = (GetLastAnswer(activity.FromUser.ConversationId) + _random.Next(0, Answers.Length - 1) + 1) % Answers.Length;
             return Answers[index];
         }
 
-        public bool CanExecute(Activity activity)
+        public bool CanExecute(MessageActivity activity)
         {
             return activity.IsMessageForBot();
         }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Bot.Connector;
 using TomatoBot.BotCommands;
+using TomatoBot.Model;
 using TomatoBot.Repository;
 
 namespace TomatoBot
@@ -54,9 +55,10 @@ namespace TomatoBot
 
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
-            if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
+            if (activity.Type == ActivityTypes.Message)
             {
-                var responce = _botCommands.ExecuteAndGetResponse(activity);
+	            var messageActivity = MessageActivityExtractor.Extract(activity);
+                var responce = _botCommands.ExecuteAndGetResponse(messageActivity);
 
                 if (!string.IsNullOrEmpty(responce))
                 {
@@ -74,5 +76,6 @@ namespace TomatoBot
 		private static readonly UsersRepository UserRepository = new UsersRepository();
 		private static readonly MovieRepository MovieRepository = new MovieRepository();
 		private static readonly MessagesRepository MessagesRepository = new MessagesRepository();
+		private static readonly MessageActivityExtractor MessageActivityExtractor = new MessageActivityExtractor(UserRepository);
 	}
 }

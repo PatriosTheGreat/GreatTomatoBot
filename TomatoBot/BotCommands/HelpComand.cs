@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Microsoft.Bot.Connector;
+using TomatoBot.Model;
 
 namespace TomatoBot.BotCommands
 {
@@ -16,12 +16,12 @@ namespace TomatoBot.BotCommands
 
         public string Sample => "/help";
 
-        public bool CanExecute(Activity activity)
+        public bool CanExecute(MessageActivity activity)
         {
-            return activity.Text.StartsWith("/help");
+            return activity.Message.StartsWith("/help");
         }
 
-        public string ExecuteAndGetResponse(Activity activity)
+        public string ExecuteAndGetResponse(MessageActivity activity)
         {
             var title = $"Список активных команд для бота:{ActivityExtension.NewLine}";
             return title + 

@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using Microsoft.Bot.Connector;
 using TomatoBot.Repository;
 using System.Linq;
+using TomatoBot.Model;
 
 namespace TomatoBot.BotCommands
 {
@@ -17,21 +17,19 @@ namespace TomatoBot.BotCommands
 
         public string Sample => "/score @UserName";
 
-        public override bool CanExecute(Activity activity)
+        public override bool CanExecute(MessageActivity activity)
         {
-            return base.CanExecute(activity) && CommandUserRegex.IsMatch(activity.Text);
+            return base.CanExecute(activity) && CommandUserRegex.IsMatch(activity.Message);
         }
 
-        public override string ExecuteAndGetResponse(Activity activity)
+        public override string ExecuteAndGetResponse(MessageActivity activity)
         {
-            var userScore = GetScoreForUserOrNull(activity);
-
-            if (userScore != null)
+            if (activity.FromUser != null)
             {
-                var totalScore = UserRepository.GetScoresInConversation(activity.Conversation.Id)
+                var totalScore = UserRepository.GetScoresInConversation(activity.FromUser.ConversationId)
                     .Sum(score => score.Score);
 
-                return $"{userScore.PersonalScore()}, У всех остальных {totalScore - userScore.Score}";
+                return $"{activity.FromUser.PersonalScore()}, У всех остальных {totalScore - activity.FromUser.Score}";
             }
 
             return string.Empty;

@@ -1,11 +1,11 @@
-﻿using Microsoft.Bot.Connector;
+﻿using TomatoBot.Model;
 
 namespace TomatoBot.BotCommands
 {
     public interface IBotCommand
     {
-        bool CanExecute(Activity activity);
+        bool CanExecute(MessageActivity activity);
 
-        string ExecuteAndGetResponse(Activity activity);
+        string ExecuteAndGetResponse(MessageActivity activity);
     }
 }
