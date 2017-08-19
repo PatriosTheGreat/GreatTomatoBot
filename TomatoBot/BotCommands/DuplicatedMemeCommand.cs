@@ -39,7 +39,7 @@ namespace TomatoBot.BotCommands
 					var user = _userRepository.GetUserById(boyan.UserId);
 					if (user != null)
 					{
-						responce += $"Боян этом мемес {url} уже был скинут {user.Identity} примерно в {boyan.SendTime:o} utc!!! ";
+						responce += $"Боян этом мемес {url} уже был скинут {user.Identity} примерно в {boyan.SendTime} utc!!! ";
 					}
 				}
             }
