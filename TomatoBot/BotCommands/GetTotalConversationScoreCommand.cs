@@ -24,7 +24,7 @@ namespace TomatoBot.BotCommands
 
         public override string ExecuteAndGetResponse(MessageActivity activity)
         {
-            var scores = UserRepository.GetScoresInConversation(activity.FromUser.UserId);
+            var scores = UserRepository.GetScoresInConversation(activity.ConversationId);
             var userScopes = string.Join(ActivityExtension.NewLine, scores.OrderByDescending(score => score.Score).Select(score => score.PersonalScore()));
             return $"{userScopes}{ActivityExtension.NewLine}Всего {scores.Sum(score => score.Score)}";
         }

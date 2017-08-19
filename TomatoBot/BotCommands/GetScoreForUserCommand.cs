@@ -26,7 +26,7 @@ namespace TomatoBot.BotCommands
         {
             if (activity.FromUser != null)
             {
-                var totalScore = UserRepository.GetScoresInConversation(activity.FromUser.ConversationId)
+                var totalScore = UserRepository.GetScoresInConversation(activity.ConversationId)
                     .Sum(score => score.Score);
 
                 return $"{activity.FromUser.PersonalScore()}, У всех остальных {totalScore - activity.FromUser.Score}";

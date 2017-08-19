@@ -81,7 +81,7 @@ namespace TomatoBot.Repository
 
 		private static string GetUpdateCommand() =>
 			$"update {nameof(Users)} set [{nameof(Users.Nickname)}] = @{nameof(Users.Nickname)}, [{nameof(Users.FirstName)}] = @{nameof(Users.FirstName)}, [{nameof(Users.ConversationId)}] = @{nameof(Users.ConversationId)} " +
-			$"where [{nameof(Users.UserId)}] = @{nameof(Users.UserId)}";
+			$"where [{nameof(Users.UserId)}] = @{nameof(Users.UserId)} and [{nameof(Users.ConversationId)}] = @{nameof(Users.ConversationId)}";
 
 		private static void FillUserInformationParameters(
 			SqlParameterCollection parameterCollection, 

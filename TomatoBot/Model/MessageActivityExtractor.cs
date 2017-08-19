@@ -19,23 +19,26 @@ namespace TomatoBot.Model
 			var smiles = new List<string>();
 			var urls = new List<string>();
 			var words = new List<string>();
-			foreach (var word in activity.Text.Split())
+			if (!string.IsNullOrEmpty(activity.Text))
 			{
-				var urlsInWord = GetUrlsInMessage(word).ToArray();
-				if (urlsInWord.Length > 0)
+				foreach (var word in activity.Text.Split())
 				{
-					urls.AddRange(urlsInWord);
-				}
-				else if (IsSmile(word))
-				{
-					smiles.Add(word);
-				}
-				else
-				{
-					words.Add(word);
+					var urlsInWord = GetUrlsInMessage(word).ToArray();
+					if (urlsInWord.Length > 0)
+					{
+						urls.AddRange(urlsInWord);
+					}
+					else if (IsSmile(word))
+					{
+						smiles.Add(word);
+					}
+					else
+					{
+						words.Add(word);
+					}
 				}
 			}
-			
+
 			var userChannelData = new ChannelUserData(activity.ChannelData?.ToString());
 			return new MessageActivity(
 				urls.ToArray(),
@@ -45,10 +48,12 @@ namespace TomatoBot.Model
 				string.IsNullOrEmpty(userChannelData.ReplyToId) ? null : _usersRepository.GetUser(activity.Conversation.Id, userChannelData.ReplyToId),
 				activity.Attachments.Count,
 				smiles.ToArray(),
-				words.ToArray());
+				words.ToArray(),
+				activity.From.Id,
+				activity.Conversation.Id);
 		}
 
-		private static bool IsSmile(string word) => word.Length == 2 && SmileFirstSymbols.Contains(word.First());
+		private static bool IsSmile(string word) => (word.Length == 2 && SmileFirstSymbols.Contains(word.First())) || (word.Length == 3 && word[1] == '_');
 		
 		private static IEnumerable<string> GetUrlsInMessage(string messages)
 		{

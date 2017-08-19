@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Microsoft.Bot.Connector;
 using TomatoBot.Model;
 using TomatoBot.Repository;
 
@@ -20,13 +19,13 @@ namespace TomatoBot.BotCommands
 
         protected Users GetScoreForUserOrNull(MessageActivity activity)
         {
-            return UserRepository.GetUser(activity.FromUser.ConversationId, GetUserNameFromMessageOrNull(activity));
+            return UserRepository.GetUser(activity.ConversationId, GetUserNameFromMessageOrNull(activity));
         }
 
         private string GetUserNameFromMessageOrNull(MessageActivity activity)
         {
             return activity.Message.Split(' ').Select(word => word.Trim().Trim('@')).FirstOrDefault(
-                word => UserRepository.IsUserExists(activity.FromUser.ConversationId, word));
+                word => UserRepository.IsUserExists(activity.ConversationId, word));
         }
     }
 }

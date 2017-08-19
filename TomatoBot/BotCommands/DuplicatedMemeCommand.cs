@@ -22,7 +22,7 @@ namespace TomatoBot.BotCommands
             foreach (var url in activity.Links)
             {
                 var urlId = GetSha256(new Uri(url).ToString());
-                var boyan = _repository.GetMemesOrDefault(activity.FromUser.ConversationId, urlId);
+                var boyan = _repository.GetMemesOrDefault(activity.ConversationId, urlId);
 
                 if (boyan == null)
                 {
@@ -37,7 +37,7 @@ namespace TomatoBot.BotCommands
 							DateTime.UtcNow,
 							activity.FromUser.Id,
 							urlId,
-							activity.FromUser.ConversationId));
+							activity.ConversationId));
                 }
                 else
 				{

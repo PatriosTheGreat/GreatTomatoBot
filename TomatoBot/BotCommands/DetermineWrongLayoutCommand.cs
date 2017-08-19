@@ -28,7 +28,7 @@ namespace TomatoBot.BotCommands
             if (activity.FromUser != null)
             {
 				activity.FromUser.Score++;
-				_usersRepository.SetScoreForUser(activity.FromUser.ConversationId, activity.FromUser.UserId, activity.FromUser.Score);
+				_usersRepository.SetScoreForUser(activity.ConversationId, activity.FromUser.UserId, activity.FromUser.Score);
                 return $"{activity.FromUser.PersonalScore()}{ActivityExtension.NewLine}Вы, возможно, имели ввиду:{ActivityExtension.NewLine}{GetOriginalText(string.Join(" ", activity.Words))}";
             }
 

@@ -12,16 +12,20 @@ namespace TomatoBot.Model
 			Users replyTo, 
 			int attachmentsCount, 
 			string[] smiles, 
-			string[] words)
+			string[] words, 
+			string fromUserId, 
+			string conversationId)
 		{
 			Links = links;
-			Message = message;
+			Message = message ?? string.Empty;
 			ChannelData = channelData;
 			FromUser = fromUser;
 			ReplyTo = replyTo;
 			AttachmentsCount = attachmentsCount;
 			Smiles = smiles;
 			Words = words;
+			FromUserId = fromUserId;
+			ConversationId = conversationId;
 		}
 
 		public string[] Links { get; }
@@ -29,6 +33,10 @@ namespace TomatoBot.Model
 		public string Message { get; }
 
 		public ChannelUserData ChannelData { get; }
+
+		public string FromUserId { get; }
+
+		public string ConversationId { get; }
 
 		public Users FromUser { get; }
 

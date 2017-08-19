@@ -15,7 +15,7 @@ namespace TomatoBot.BotCommands
 
 		public string ExecuteAndGetResponse(MessageActivity activity)
 		{
-			_messagesRepository.AddMessage(new Messages(activity.FromUser.ConversationId, activity.FromUser.UserId, activity.Words.Length, DateTime.UtcNow));
+			_messagesRepository.AddMessage(new Messages(activity.ConversationId, activity.FromUserId, activity.Words.Length, DateTime.UtcNow));
 			return string.Empty;
 		}
 

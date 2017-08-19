@@ -15,8 +15,8 @@ namespace TomatoBot.BotCommands
         public string ExecuteAndGetResponse(MessageActivity activity)
         {
 			_usersRepository.UpdateUserData(
-                activity.FromUser.ConversationId, 
-                activity.FromUser.UserId,
+                activity.ConversationId, 
+                activity.FromUserId,
                 activity.ChannelData.UserFirstName, 
                 activity.ChannelData.UserNickname);
 
