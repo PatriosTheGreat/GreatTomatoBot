@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data.SqlClient;
 using System.Linq;
 using TomatoBot.Model;
 
@@ -46,7 +47,27 @@ namespace TomatoBot.Repository
 
 		public MessageStatistics[] GetTotalStatistics(string conversationId)
 		{
-			var query = $@"
+			return ExecuteReader(
+				StatisticsQuery(),
+				MapReaderToStatistics,
+				parametes => FillStringParameter(parametes, nameof(Messages.ConversationId), conversationId)).ToArray();
+		}
+
+		public MessageStatistics[] GetDailyStatistics(string conversationId)
+		{
+			return ExecuteReader(
+				StatisticsQuery($"and {nameof(Messages.Time)} > @{nameof(Messages.Time)}"),
+				MapReaderToStatistics,
+				parametes =>
+				{
+					FillStringParameter(parametes, nameof(Messages.ConversationId), conversationId);
+					FillDateTimeParameter(parametes, nameof(Messages.Time), DateTime.UtcNow.Date);
+				}).ToArray();
+		}
+
+		private string StatisticsQuery(string additionalFiltering = "")
+		{
+			return $@"
 					Select 
 						Count(*) as {nameof(MessageStatistics.MessagesCount)},
 						Sum({nameof(MessageStatistics.WordsCount)}) as {nameof(MessageStatistics.WordsCount)}, 
@@ -58,7 +79,7 @@ namespace TomatoBot.Repository
 					join {nameof(Users)}
 					on [{nameof(Users)}].{nameof(Users.UserId)} = {nameof(Messages)}.{nameof(Users.UserId)} 
 						and [{nameof(Users)}].{nameof(Users.ConversationId)} = {nameof(Messages)}.{nameof(Messages.ConversationId)}
-					where [{nameof(Messages)}].{nameof(Messages.ConversationId)} = @{nameof(Messages.ConversationId)}
+					where [{nameof(Messages)}].{nameof(Messages.ConversationId)} = @{nameof(Messages.ConversationId)} {additionalFiltering}
 						group by 
 							[{nameof(Users)}].{nameof(Users.Id)}, 
 							[{nameof(Messages)}].{nameof(Messages.ConversationId)}, 
@@ -66,11 +87,6 @@ namespace TomatoBot.Repository
 							[{nameof(Users)}].{nameof(Users.FirstName)}, 
 							[{nameof(Users)}].{nameof(Users.Nickname)}
 					order by {nameof(MessageStatistics.MessagesCount)} desc";
-			
-			return ExecuteReader(
-				query,
-				MapReaderToStatistics,
-				parametes => FillStringParameter(parametes, nameof(Messages.ConversationId), conversationId)).ToArray();
 		}
 
 		private static MessageStatistics MapReaderToStatistics(SqlDataReader reader) => 

@@ -162,6 +162,7 @@
     <Compile Include="BotCommands\GetCurrencyCommand.cs" />
     <Compile Include="BotCommands\GetScoreForUserCommand.cs" />
     <Compile Include="BotCommands\GetTotalConversationScoreCommand.cs" />
+    <Compile Include="BotCommands\GetDailyStatistics.cs" />
     <Compile Include="BotCommands\GetTotalStatistics.cs" />
     <Compile Include="BotCommands\GetUpcomingMovies.cs" />
     <Compile Include="BotCommands\HelpComand.cs" />

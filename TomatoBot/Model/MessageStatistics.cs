@@ -36,7 +36,13 @@ namespace TomatoBot.Model
 
 		public string Nickname { get; }
 
-		public string GetUserStatistics()
+		public string GetDetailedStatistics() => 
+			$"{GetUserName()}{ActivityExtension.NewLine}{MessagesCount}, {WordsCount}, {SmilesCount}, {AttachmentsCount}, {AverageWordsLength?.ToString("F2") ?? "0"}";
+
+		public string GetStatistics() =>
+			$"{GetUserName()}, {MessagesCount}, {WordsCount}, {AttachmentsCount}";
+
+		private string GetUserName()
 		{
 			var userName = "неизвестный";
 			if (!string.IsNullOrEmpty(Nickname))
@@ -48,7 +54,7 @@ namespace TomatoBot.Model
 				userName = FirstName;
 			}
 
-			return $"{userName}{ActivityExtension.NewLine}{MessagesCount}_{WordsCount}_{SmilesCount}_{AttachmentsCount}_{AverageWordsLength?.ToString("F2") ?? "0"}";
+			return userName;
 		}
 	}
 }

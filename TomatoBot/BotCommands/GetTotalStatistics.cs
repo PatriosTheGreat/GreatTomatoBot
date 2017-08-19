@@ -15,14 +15,14 @@ namespace TomatoBot.BotCommands
 
 		public string Description => "отображает полную статистику чата за весь период наблюдений";
 
-		public string Sample => "/totalStatistics";
+		public string Sample => "/totalstatistics";
 
-		public bool CanExecute(MessageActivity activity) => activity.Message.StartsWith("/totalStatistics");
+		public bool CanExecute(MessageActivity activity) => activity.Message.StartsWith("/totalstatistics");
 
 		public string ExecuteAndGetResponse(MessageActivity activity)
 		{
 			var totalStatistics = _messagesRepository.GetTotalStatistics(activity.ConversationId);
-			var userStatistics = string.Join(ActivityExtension.NewLine, totalStatistics.Select(statistics => statistics.GetUserStatistics()));
+			var userStatistics = string.Join(ActivityExtension.NewLine, totalStatistics.Select(statistics => statistics.GetDetailedStatistics()));
 			return $"Сообщений Слов Смайлов Атачей Средняя длина{ActivityExtension.NewLine}{userStatistics}{ActivityExtension.NewLine}Всего сообщений {totalStatistics.Sum(statistics => statistics.MessagesCount)}";
 		}
 

@@ -25,6 +25,7 @@ namespace TomatoBot
             var getUpcomingMovies = new GetUpcomingMovies(MovieRepository);
 	        var getMovieReleaseDate = new GetMovieReleaseDate(MovieRepository);
 			var getTotalStatistics = new GetTotalStatistics(MessagesRepository);
+			var getDailyStatistics = new GetDailyStatistics(MessagesRepository);
 
 			_botCommands = new AllHandleCommandsAggregator(
                 new DuplicatedMemeCommand(MemesRepository, UserRepository),
@@ -33,7 +34,8 @@ namespace TomatoBot
                     getCurrencyCommand,
                     getScoreForUserCommand,
                     getTotalScoreCommand,
-                    setScoreForUser,
+					getDailyStatistics,
+					setScoreForUser,
                     incrementScoreForUser,
                     decrementScoreForUser,
                     getNowPlayingMovies,
