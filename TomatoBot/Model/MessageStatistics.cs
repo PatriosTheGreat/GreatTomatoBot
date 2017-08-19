@@ -37,12 +37,12 @@ namespace TomatoBot.Model
 		public string Nickname { get; }
 
 		public string GetDetailedStatistics() => 
-			$"{GetUserName()}{ActivityExtension.NewLine}{MessagesCount}, {WordsCount}, {SmilesCount}, {AttachmentsCount}, {AverageWordsLength?.ToString("F2") ?? "0"}";
+			$"{GetUserName()}	{MessagesCount}	{WordsCount}	{SmilesCount}	{AttachmentsCount}	{AverageWordsLength?.ToString("F2") ?? "0"}";
 
 		public string GetStatistics() =>
-			$"{GetUserName()}, {MessagesCount}, {WordsCount}, {AttachmentsCount}";
+			$"{GetUserName()}	{MessagesCount}	{WordsCount}	{AttachmentsCount}";
 
-		private string GetUserName()
+		public string GetUserName()
 		{
 			var userName = "неизвестный";
 			if (!string.IsNullOrEmpty(Nickname))
