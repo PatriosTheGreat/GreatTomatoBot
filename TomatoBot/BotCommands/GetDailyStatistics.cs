@@ -21,7 +21,7 @@ namespace TomatoBot.BotCommands
 
 		public string ExecuteAndGetResponse(MessageActivity activity)
 		{
-			var totalStatistics = _messagesRepository.GetTotalStatistics(activity.ConversationId);
+			var totalStatistics = _messagesRepository.GetDailyStatistics(activity.ConversationId);
 			var userStatistics = string.Join(ActivityExtension.NewLine, totalStatistics.Select(statistics => statistics.GetStatistics()));
 			return $"·						msg	word	att{ActivityExtension.NewLine}{userStatistics}{ActivityExtension.NewLine}Всего сообщений {totalStatistics.Sum(statistics => statistics.MessagesCount)}";
 		}
