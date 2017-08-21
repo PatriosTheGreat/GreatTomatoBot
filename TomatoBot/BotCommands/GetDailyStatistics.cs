@@ -23,7 +23,7 @@ namespace TomatoBot.BotCommands
 		{
 			var totalStatistics = _messagesRepository.GetDailyStatistics(activity.ConversationId);
 			var userStatistics = string.Join(ActivityExtension.NewLine, totalStatistics.Select(statistics => statistics.GetStatistics()));
-			return $"·						msg	word	att{ActivityExtension.NewLine}{userStatistics}{ActivityExtension.NewLine}Всего сообщений {totalStatistics.Sum(statistics => statistics.MessagesCount)}";
+			return $"`{Emojis.Envelop}    {Emojis.Message}    {Emojis.Attach}`{ActivityExtension.NewLine}{userStatistics}{ActivityExtension.NewLine}Всего сообщений: `{totalStatistics.Sum(statistics => statistics.MessagesCount)}`";
 		}
 
 		private readonly MessagesRepository _messagesRepository;

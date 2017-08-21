@@ -18,8 +18,7 @@ namespace TomatoBot.BotCommands
 		{
 			_messagesRepository.AddMessage(
 				new Messages(
-					activity.ConversationId, 
-					activity.FromUser.UserId, 
+					activity.FromUser.Id, 
 					activity.Words.Length, 
 					DateTime.UtcNow,
 					smilesCount: activity.Smiles.Length,

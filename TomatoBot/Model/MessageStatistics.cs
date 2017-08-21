@@ -1,6 +1,4 @@
-﻿using TomatoBot.BotCommands;
-
-namespace TomatoBot.Model
+﻿namespace TomatoBot.Model
 {
 	public sealed class MessageStatistics
 	{
@@ -36,11 +34,13 @@ namespace TomatoBot.Model
 
 		public string Nickname { get; }
 
-		public string GetDetailedStatistics() => 
-			$"{GetUserName()}	{MessagesCount}	{WordsCount}	{SmilesCount}	{AttachmentsCount}	{AverageWordsLength?.ToString("F2") ?? "0"}";
+		public string GetDetailedStatistics()
+		{
+			return $"`{GetSpaces(MessagesCount)}{GetSpaces(WordsCount)}{GetSpaces(SmilesCount)}{GetSpaces(AttachmentsCount)}{GetSpaces(AverageWordsLength?.ToString("F2") ?? "0")}`  {GetUserName()} ";
+		}
 
 		public string GetStatistics() =>
-			$"{GetUserName()}	{MessagesCount}	{WordsCount}	{AttachmentsCount}";
+			$"`{GetSpaces(MessagesCount)}{GetSpaces(WordsCount)}{GetSpaces(AttachmentsCount)}`  {GetUserName()} ";
 
 		public string GetUserName()
 		{
@@ -55,6 +55,13 @@ namespace TomatoBot.Model
 			}
 
 			return userName;
+		}
+
+		private static string GetSpaces<T>(T number)
+		{
+			const int MaxWidth = 5;
+			var delta = MaxWidth - number.ToString().Length;
+			return number + new string(' ', delta < 1 ? 1 : delta);
 		}
 	}
 }

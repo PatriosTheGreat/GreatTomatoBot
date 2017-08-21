@@ -5,8 +5,7 @@ namespace TomatoBot.Model
 	public class Messages
 	{
 		public Messages(
-			string conversationId, 
-			string userId, 
+			int userId, 
 			int wordsCount, 
 			DateTime time, 
 			int smilesCount, 
@@ -15,7 +14,6 @@ namespace TomatoBot.Model
 			int messageLength, 
 			int? replyToId)
 		{
-			ConversationId = conversationId;
 			UserId = userId;
 			WordsCount = wordsCount;
 			Time = time;
@@ -25,10 +23,8 @@ namespace TomatoBot.Model
 			MessageLength = messageLength;
 			ReplyToId = replyToId;
 		}
-
-		public string ConversationId { get; }
-
-		public string UserId { get; }
+		
+		public int UserId { get; }
 
 		public int WordsCount { get; }
 

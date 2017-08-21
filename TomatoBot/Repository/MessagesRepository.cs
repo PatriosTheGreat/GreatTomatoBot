@@ -10,8 +10,7 @@ namespace TomatoBot.Repository
 		public void AddMessage(Messages message)
 		{
 			var query = $"insert into {nameof(Messages)} " +
-				$"({nameof(Messages.ConversationId)}, " +
-			            $"{nameof(Messages.UserId)}, " +
+				$"({nameof(Messages.UserId)}, " +
 			            $"{nameof(Messages.WordsCount)}, " +
 			            $"{nameof(Messages.Time)}, " +
 						$"{nameof(Messages.SmilesCount)}, " +
@@ -19,8 +18,7 @@ namespace TomatoBot.Repository
 						$"{nameof(Messages.LinksCount)}, " +
 						$"{nameof(Messages.MessageLength)}, " +
 						$"{nameof(Messages.ReplyToId)}) values " +
-				$"(@{nameof(Messages.ConversationId)}, " +
-			            $"@{nameof(Messages.UserId)}, " +
+				$"(@{nameof(Messages.UserId)}, " +
 			            $"@{nameof(Messages.WordsCount)}, " +
 			            $"@{nameof(Messages.Time)}, " +
 						$"@{nameof(Messages.SmilesCount)}, " +
@@ -33,9 +31,8 @@ namespace TomatoBot.Repository
 				query,
 				collection =>
 				{
-					FillStringParameter(collection, nameof(Messages.ConversationId), message.ConversationId);
 					FillIntParameter(collection, nameof(Messages.WordsCount), message.WordsCount);
-					FillStringParameter(collection, nameof(Messages.UserId), message.UserId);
+					FillIntParameter(collection, nameof(Messages.UserId), message.UserId);
 					FillDateTimeParameter(collection, nameof(Messages.Time), message.Time);
 					FillIntParameter(collection, nameof(Messages.SmilesCount), message.SmilesCount);
 					FillIntParameter(collection, nameof(Messages.AttachmentsCount), message.AttachmentsCount);
@@ -50,7 +47,7 @@ namespace TomatoBot.Repository
 			return ExecuteReader(
 				StatisticsQuery(),
 				MapReaderToStatistics,
-				parametes => FillStringParameter(parametes, nameof(Messages.ConversationId), conversationId)).ToArray();
+				parametes => FillStringParameter(parametes, nameof(Users.ConversationId), conversationId)).ToArray();
 		}
 
 		public MessageStatistics[] GetDailyStatistics(string conversationId)
@@ -60,7 +57,7 @@ namespace TomatoBot.Repository
 				MapReaderToStatistics,
 				parametes =>
 				{
-					FillStringParameter(parametes, nameof(Messages.ConversationId), conversationId);
+					FillStringParameter(parametes, nameof(Users.ConversationId), conversationId);
 					FillDateTimeParameter(parametes, nameof(Messages.Time), DateTime.UtcNow.Date);
 				}).ToArray();
 		}
@@ -77,13 +74,10 @@ namespace TomatoBot.Repository
 						[{nameof(Users)}].{nameof(MessageStatistics.FirstName)}, 
 						[{nameof(Users)}].{nameof(MessageStatistics.Nickname)} from {nameof(Messages)}
 					join {nameof(Users)}
-					on [{nameof(Users)}].{nameof(Users.UserId)} = {nameof(Messages)}.{nameof(Users.UserId)} 
-						and [{nameof(Users)}].{nameof(Users.ConversationId)} = {nameof(Messages)}.{nameof(Messages.ConversationId)}
-					where [{nameof(Messages)}].{nameof(Messages.ConversationId)} = @{nameof(Messages.ConversationId)} {additionalFiltering}
+					on [{nameof(Users)}].{nameof(Users.Id)} = {nameof(Messages)}.{nameof(Users.UserId)}
+					where [{nameof(Users)}].{nameof(Users.ConversationId)} = @{nameof(Users.ConversationId)} {additionalFiltering}
 						group by 
-							[{nameof(Users)}].{nameof(Users.Id)}, 
-							[{nameof(Messages)}].{nameof(Messages.ConversationId)}, 
-							[{nameof(Users)}].{nameof(Users.UserId)}, 
+							[{nameof(Users)}].{nameof(Users.Id)},
 							[{nameof(Users)}].{nameof(Users.FirstName)}, 
 							[{nameof(Users)}].{nameof(Users.Nickname)}
 					order by {nameof(MessageStatistics.MessagesCount)} desc";

@@ -10,8 +10,13 @@
         public const string KoreaFlag = "🇰🇷";
         public const string JapanFlag = "🇯🇵";
         public const string FrenchFlag = "🇫🇷";
+	    public const string Envelop = "✉";
+	    public const string Message = "📝";
+	    public const string Attach = "📎";
+	    public const string Smile = "😄";
+	    public const string Statistics = "📈";
 
-        public static string GetFlag(string country)
+		public static string GetFlag(string country)
         {
             switch (country)
             {
