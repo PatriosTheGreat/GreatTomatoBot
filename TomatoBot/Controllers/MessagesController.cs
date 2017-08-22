@@ -52,7 +52,9 @@ namespace TomatoBot
                         decrementScoreForUser,
                         getNowPlayingMovies,
                         getUpcomingMovies,
-                        getMovieReleaseDate),
+                        getMovieReleaseDate,
+						getTotalStatistics,
+						getDailyStatistics),
                     new RudeAnswerCommand()));
         }
 
