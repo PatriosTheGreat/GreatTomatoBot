@@ -25,7 +25,27 @@ namespace DataMigration
 			Console.WriteLine(GetRate().RateDirection);
 			Console.WriteLine(TryGetCurrency("EUR", out currency));
 			Console.WriteLine(currency);
+			// Console.ReadLine();
+			var jsonString =
+				new WebClient().DownloadString(
+					$"{BasePath2}?{StartParameter}={DateTime.UtcNow.AddDays(-10):yyyy-MM-dd}&{EndParameter}={DateTime.UtcNow:yyyy-MM-dd}");
+					var responce = JsonConvert.DeserializeObject<CoinDeskResponce>(jsonString);
+
+			var lastRating = responce.bpi.Last().Value;
+			var beforeLastRating = responce.bpi.Reverse().Take(2).Last().Value;
+
+			Console.WriteLine(lastRating);
+			Console.WriteLine(beforeLastRating);
 			Console.ReadLine();
+		}
+
+		private const string BasePath2 = "https://api.coindesk.com/v1/bpi/historical/close.json";
+		private const string StartParameter = "start";
+		private const string EndParameter = "end";
+
+		private sealed class CoinDeskResponce
+		{
+			public Dictionary<DateTime, double> bpi { get; set; }
 		}
 
 		private static bool TryGetCurrency(string currencyString, out Currency currency)

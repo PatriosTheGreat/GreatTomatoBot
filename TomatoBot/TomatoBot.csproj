@@ -201,6 +201,7 @@
     <Compile Include="Repository\MovieRepository.cs" />
     <Compile Include="Repository\ScoreRepository.cs" />
     <Compile Include="Repository\UsersRepository.cs" />
+    <Compile Include="Services\BtcToUsdCurrencyProvider.cs" />
     <Compile Include="Services\CurrencyRatingProvider.cs" />
     <Compile Include="Services\EurToGbpCurrencyProvider.cs" />
     <Compile Include="Services\GbpToEurCurrencyProvider.cs" />
