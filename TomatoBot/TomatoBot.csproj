@@ -177,6 +177,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="BotCommands\IBotCommand.cs" />
+    <Compile Include="Model\Currency.cs" />
+    <Compile Include="Model\CurrencyRate.cs" />
+    <Compile Include="Model\CurrencyRateDirection.cs" />
+    <Compile Include="Model\CurrencySymbols.cs" />
     <Compile Include="Model\Memeses.cs" />
     <Compile Include="Model\MemesInHistory.cs" />
     <Compile Include="Model\MemberScore.cs" />
@@ -197,6 +201,23 @@
     <Compile Include="Repository\MovieRepository.cs" />
     <Compile Include="Repository\ScoreRepository.cs" />
     <Compile Include="Repository\UsersRepository.cs" />
+    <Compile Include="Services\CurrencyRatingProvider.cs" />
+    <Compile Include="Services\EurToGbpCurrencyProvider.cs" />
+    <Compile Include="Services\GbpToEurCurrencyProvider.cs" />
+    <Compile Include="Services\BloombergCurrencyProvider.cs" />
+    <Compile Include="Services\EurToRubCurrencyProvider.cs" />
+    <Compile Include="Services\EurToUsdCurrencyProvider.cs" />
+    <Compile Include="Services\FixerBasedCurrencyProvider.cs" />
+    <Compile Include="Services\GbpToRubCurrencyProvider.cs" />
+    <Compile Include="Services\GbpToUsdCurrencyProvider.cs" />
+    <Compile Include="Services\ICurrencyRatingProvider.cs" />
+    <Compile Include="Services\ICurrencyToAnotherRateProvider.cs" />
+    <Compile Include="Services\RubToEurCurrencyProvider.cs" />
+    <Compile Include="Services\RubToGbpCurrencyProvider.cs" />
+    <Compile Include="Services\RubToUsdCurrencyProvider.cs" />
+    <Compile Include="Services\UsdToEurCurrencyProvider.cs" />
+    <Compile Include="Services\UsdToGbpCurrencyProvider.cs" />
+    <Compile Include="Services\UsdToRubCurrencyProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

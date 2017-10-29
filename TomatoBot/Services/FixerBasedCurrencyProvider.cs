@@ -4,36 +4,16 @@ using System.Linq;
 using System.Net;
 using Newtonsoft.Json;
 using TomatoBot.Model;
-using TomatoBot.Repository;
-using TomatoBot.Services;
 
-namespace DataMigration
+namespace TomatoBot.Services
 {
-	class Program
+	public abstract class FixerBasedCurrencyProvider : ICurrencyToAnotherRateProvider
 	{
-		static void Main(string[] args)
-		{
-			var userRepo = new UsersRepository();
+		public abstract Currency Source { get; }
 
-			Console.WriteLine(userRepo.GetUserById(258).Identity);
-			//var usersRepository = new UsersRepository();
-		//	foreach(var data in dataSet)
-		//	{
-		//	}
-			Currency currency;
-			Console.WriteLine(GetRate().Rate);
-			Console.WriteLine(GetRate().RateDirection);
-			Console.WriteLine(TryGetCurrency("EUR", out currency));
-			Console.WriteLine(currency);
-			Console.ReadLine();
-		}
+		public abstract Currency Target { get; }
 
-		private static bool TryGetCurrency(string currencyString, out Currency currency)
-		{
-			return Enum.TryParse(currencyString.ToUpper(), out currency);
-		}
-
-		public static CurrencyRate GetRate()
+		public CurrencyRate GetRate()
 		{
 			var latest = GetRate(DateTime.Now);
 			var beforeLatest = GetRate(latest.Date.AddDays(-1));
@@ -44,30 +24,27 @@ namespace DataMigration
 				Target);
 		}
 
-		public static Currency Source = Currency.EUR;
-		public static Currency Target = Currency.RUB;
-
-		private static CurrencyResult GetRate(DateTime date)
+		private CurrencyResult GetRate(DateTime date)
 		{
 			var fixerResult = GetRateFromFixer(date);
 			if (fixerResult.rates.ContainsKey(Source.ToString()) && fixerResult.rates.ContainsKey(Target.ToString()))
 			{
 				var sourceRate = fixerResult.rates[Source.ToString()];
 				var targetRate = fixerResult.rates[Target.ToString()];
-				return new CurrencyResult(targetRate / sourceRate, fixerResult.date);
+				return new CurrencyResult(sourceRate / targetRate, fixerResult.date);
 			}
 
-			if (Target == Currency.EUR)
+			if (fixerResult.rates.ContainsKey(Target.ToString()))
 			{
-				return new CurrencyResult(1 / fixerResult.rates[Source.ToString()], fixerResult.date);
+				return new CurrencyResult(1 / fixerResult.rates[Target.ToString()], fixerResult.date);
 			}
-
+			
 			return new CurrencyResult(fixerResult.rates.Last().Value, fixerResult.date);
 		}
 
-		private static FixerResultJson GetRateFromFixer(DateTime date)
+		private FixerResultJson GetRateFromFixer(DateTime date)
 		{
-			var jsonString = new WebClient().DownloadString($"{BasePath}/{date:yyyy-MM-dd}?{Symbols}={Source},{Target}");
+			var jsonString = new WebClient().DownloadString($"{BasePath}/{date:yyyy-MM-dd}?{Symbols}={Target},{Source}");
 			return JsonConvert.DeserializeObject<FixerResultJson>(jsonString);
 		}
 
