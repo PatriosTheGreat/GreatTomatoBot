@@ -5,11 +5,11 @@ using TomatoBot.Services;
 
 namespace TomatoBot.BotCommands
 {
-    public sealed class GetCurrencyCommand : IBotCommand, ICommandWithHelpLine
-    {
-	    public GetCurrencyCommand()
-	    {
-		    var rubToUsdProvider = new RubToUsdCurrencyProvider();
+	public sealed class GetCurrencyCommand : IBotCommand, ICommandWithHelpLine
+	{
+		public GetCurrencyCommand()
+		{
+			var rubToUsdProvider = new RubToUsdCurrencyProvider();
 			var usdToRubProvider = new UsdToRubCurrencyProvider();
 			var rubToEurProvider = new RubToEurCurrencyProvider();
 			var eurToRubProvider = new EurToRubCurrencyProvider();
@@ -22,52 +22,52 @@ namespace TomatoBot.BotCommands
 			var usdToGbpProvider = new UsdToGbpCurrencyProvider();
 			var gbpToUsdProvider = new GbpToUsdCurrencyProvider();
 
-		    _currencyToAnotherRateProviders = new ICurrencyToAnotherRateProvider[]
-		    {
-			    rubToUsdProvider,
-			    usdToRubProvider,
-			    rubToEurProvider,
-			    eurToRubProvider,
-			    usdToEurProvider,
-			    eurToUsdProvider,
-			    rubToGbpProvider,
-			    gbpToRubProvider,
-			    eurToGbpProvider,
-			    gbpToEurProvider,
-			    usdToGbpProvider,
-			    gbpToUsdProvider
-		    };
+			_currencyToAnotherRateProviders = new ICurrencyToAnotherRateProvider[]
+			{
+				rubToUsdProvider,
+				usdToRubProvider,
+				rubToEurProvider,
+				eurToRubProvider,
+				usdToEurProvider,
+				eurToUsdProvider,
+				rubToGbpProvider,
+				gbpToRubProvider,
+				eurToGbpProvider,
+				gbpToEurProvider,
+				usdToGbpProvider,
+				gbpToUsdProvider
+			};
 
 			_currencyRatingProviders = new ICurrencyRatingProvider[]
 			{
 				new CurrencyRatingProvider(Currency.RUB, rubToUsdProvider, rubToEurProvider, rubToGbpProvider),
 				new CurrencyRatingProvider(Currency.USD, usdToRubProvider, usdToEurProvider, usdToGbpProvider),
 				new CurrencyRatingProvider(Currency.EUR, eurToUsdProvider, eurToRubProvider, eurToGbpProvider),
-				new CurrencyRatingProvider(Currency.GBP, gbpToUsdProvider, gbpToEurProvider, gbpToRubProvider), 
+				new CurrencyRatingProvider(Currency.GBP, gbpToUsdProvider, gbpToEurProvider, gbpToRubProvider),
 			};
-	    }
+		}
 
-        public bool CanExecute(MessageActivity activity) => 
+		public bool CanExecute(MessageActivity activity) =>
 			activity.IsMessageForBot() &&
 				(TryGetCurrency(activity.Message, out Currency currency) || TryGetCurrencyToCurrency(activity.Message, out currency, out currency));
-		
-        public string CommandName => "getCurrency";
 
-        public string Description => "отображает курс валюты";
+		public string CommandName => "getCurrency";
 
-        public string Sample => "/eur2rub";
+		public string Description => "отображает курс валюты";
 
-        public string ExecuteAndGetResponse(MessageActivity activity)
-        {
-	        Currency sourceCurrency;
-	        if (TryGetCurrency(activity.Message, out sourceCurrency))
-	        {
-		        var ratings = _currencyRatingProviders.Single(provider => provider.Source == sourceCurrency).GetRates();
-		        return string.Join(ActivityExtension.NewLine, ratings.Select(GetRatingString));
-	        }
+		public string Sample => "/eur2rub";
 
-	        Currency targetCurrency;
-			if(TryGetCurrencyToCurrency(activity.Message, out sourceCurrency, out targetCurrency))
+		public string ExecuteAndGetResponse(MessageActivity activity)
+		{
+			Currency sourceCurrency;
+			if (TryGetCurrency(activity.Message, out sourceCurrency))
+			{
+				var ratings = _currencyRatingProviders.Single(provider => provider.Source == sourceCurrency).GetRates();
+				return string.Join(ActivityExtension.NewLine, ratings.Select(GetRatingString));
+			}
+
+			Currency targetCurrency;
+			if (TryGetCurrencyToCurrency(activity.Message, out sourceCurrency, out targetCurrency))
 			{
 				var rating =
 					_currencyToAnotherRateProviders.Single(
@@ -76,17 +76,23 @@ namespace TomatoBot.BotCommands
 			}
 
 			return string.Empty;
-        }
+		}
 
-	    private static string GetRatingString(CurrencyRate rate)
-	    {
+		private static string TrimBotName(string message)
+		{
+			var nameStart = message.IndexOf("@", StringComparison.Ordinal);
+			return nameStart == -1 ? message : message.Substring(0, nameStart);
+		}
+
+		private static string GetRatingString(CurrencyRate rate)
+		{
 			var postfix = rate.RateDirection == CurrencyRateDirection.Down ? "Снижение!" : "";
 			return $"{CurrencySymbols.GetSymbol(rate.Target)} {rate.Rate:N3} {postfix}";
 		}
 
-	    private static bool TryGetCurrency(string currencyString, out Currency currency)
-	    {
-			return Enum.TryParse(currencyString.TrimStart('/').ToUpper(), out currency);
+		private static bool TryGetCurrency(string currencyString, out Currency currency)
+		{
+			return Enum.TryParse(TrimBotName(currencyString.TrimStart('/')).ToUpper(), out currency);
 		}
 
 		private static bool TryGetCurrencyToCurrency(string currencyString, out Currency source, out Currency target)
@@ -106,6 +112,6 @@ namespace TomatoBot.BotCommands
 		}
 
 		private readonly ICurrencyRatingProvider[] _currencyRatingProviders;
-	    private readonly ICurrencyToAnotherRateProvider[] _currencyToAnotherRateProviders;
-    }
+		private readonly ICurrencyToAnotherRateProvider[] _currencyToAnotherRateProviders;
+	}
 }
