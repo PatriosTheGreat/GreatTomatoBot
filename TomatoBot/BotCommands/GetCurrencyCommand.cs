@@ -70,13 +70,7 @@ namespace TomatoBot.BotCommands
 					? string.Join(ActivityExtension.NewLine, currencyRequest.CurrencyRatingProvider.GetRates().Select(GetRatingString))
 					: GetRatingString(currencyRequest.CurrencyToAnotherRateProvider.GetRate());
 		}
-
-		private static string TrimBotName(string message)
-		{
-			var nameStart = message.IndexOf("@", StringComparison.Ordinal);
-			return nameStart == -1 ? message : message.Substring(0, nameStart);
-		}
-
+		
 		private static string GetRatingString(CurrencyRate rate)
 		{
 			var postfix = rate.RateDirection == CurrencyRateDirection.Down ? "Снижение!" : "";
@@ -178,7 +172,7 @@ namespace TomatoBot.BotCommands
 			}
 
 			private static bool TryGetCurrency(string currencyString, out Currency currency) => 
-				Enum.TryParse(TrimBotName(currencyString).ToUpper(), out currency);
+				Enum.TryParse(currencyString.ToUpper(), out currency);
 		}
 	}
 }
